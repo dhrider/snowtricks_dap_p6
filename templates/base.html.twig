@@ -2,11 +2,119 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}SNOWTRICKS{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/themes/base/jquery-ui.css">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block body %}
+            <!-- Navigation -->
+            <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header page-scroll">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                        </button>
+                        <a class="navbar-brand" href="#">SnowTricks Community</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="hidden">
+                                <a href="#"></a>
+                            </li>
+                            <li class="page-scroll">
+                                <a id="menuHome" href="#">Home</a>
+                            </li>
+                            <li class="page-scroll">
+                                <a href="#">Tricks</a>
+                            </li>
+                            <li class="page-scroll">
+                                <a href="#">Sign In</a>
+                            </li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class="page-scroll dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog Admin</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-header">Posts</li>
+                                        <li><a href="#">Add New</a></li>
+                                        <li><a id="menuManagePost" href="#">Manage</a></li>
+                                        <li class="divider"></li>
+                                        <li class="dropdown-header">Comments</li>
+                                        <li><a href="#">Manage</a></li>
+                                        <li class="divider"></li>
+                                        <li class="dropdown-header">User</li>
+                                        <li><a href="#">Manage</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+
+            <!-- footer -->
+            <footer>
+                <div class="footer">
+                    <div class="container">
+                        <div class="row navbar" id="footerNavbar">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-target">
+                                    <span class="sr-only">Toggle navigation</span> Admin <i class="fa fa-bars"></i>
+                                </button>
+                                <h6 id="copyright">Copyright &copy; SnowTricks 2018</h6>
+                            </div>
+                            <div class="collapse navbar-collapse" id="navbar-collapse-target">
+                                <ul class="nav navbar-nav navbar-right ">
+                                    <li class="hidden">
+                                        <a href="#"></a>
+                                    </li>
+                                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                        <li class="dropup">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <span class="glyphicon glyphicon-user"></span> Hello <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">Log out</a></li>
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <li class="dropup">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <span class="glyphicon glyphicon-user"></span> Admin <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a id="menuLogin" href="#">Log in</a></li>
+                                            </ul>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        {% endblock %}
+
+        {% block javascripts %}
+            <script src="https://code.jquery.com/jquery-3.3.1.js"
+                    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+                    crossorigin="anonymous">
+            </script>
+            <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+                    integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+                    crossorigin="anonymous">
+            </script>
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+
+        {% endblock %}
     </body>
 </html>
