@@ -1,5 +1,16 @@
 html {
-    background: #18BC9C;
+    background: #DDDDDD;
     min-height: 100%;
     position: relative;
+    }
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: black;
+}
+
+.navbar, .footer {
+    color: white;
 }
