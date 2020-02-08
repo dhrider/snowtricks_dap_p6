@@ -45,7 +45,7 @@ class Figure
 
     public function __construct()
     {
-        $this->dateCreation = new \DateTime();
+        $this->dateCreation = new \DateTimeImmutable();
         $this->dateLastModification = new \DateTime();
     }
 

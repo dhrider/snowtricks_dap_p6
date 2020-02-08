@@ -1,20 +1,21 @@
 {% extends 'base.html.twig' %}
 
-
 {% block pageContent %}
-    <div class="container">
-        <a href="" class="pull-right btn btn-default" type="button" title="Page Bottom">
-            <span class="glyphicon glyphicon-arrow-down"></span>
-        </a>
-        <div id="figures" class="row flex">
-            <div class="col-3">
-                <div class="card">
+    <div class="index" style="background-image: url({{ asset('build/images/snow01.jpg') }});">
+
+            <a href="" class="pull-right btn btn-default" type="button" title="Page Bottom">
+                <span class="glyphicon glyphicon-arrow-down"></span>
+            </a>
+
+        <div class="container">
+            <div id="figures" class="row">
+                <div class="card mt-4">
                     <div class="card-body">
-                       <p class="card-text">Figure 1</p>
+                        <h5 class="card-title">FIGURE 1</h5>
+                        <p class="card-text">Ma figure 1</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
-

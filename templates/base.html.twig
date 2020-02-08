@@ -10,7 +10,7 @@
             <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
         {% endblock %}
     </head>
-    <body style="background-image: url({{ asset('build/images/snow01.jpg') }});">
+    <body >
         {% block body %}
             <!-- Navigation -->
             <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
@@ -61,7 +61,7 @@
                 <!-- /.container-fluid -->
             </nav>
 
-            <div id="container" class="page">{% block pageContent %}{% endblock %}</div>
+            {% block pageContent %}{% endblock %}
 
 
             <!-- footer -->

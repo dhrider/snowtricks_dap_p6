@@ -1,10 +1,14 @@
 html {
     background: #DDDDDD;
-    height: 100%;
     position: relative;
 }
 
-body {
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.index {
     padding-top: 50px;
     /* Full height */
     height: 100%;
