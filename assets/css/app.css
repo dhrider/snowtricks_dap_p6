@@ -1,0 +1,30 @@
+html {
+    background: #DDDDDD;
+    position: relative;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.index {
+    padding-top: 50px;
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #f8f8f8;
+    color: #333;
+}
+
+
