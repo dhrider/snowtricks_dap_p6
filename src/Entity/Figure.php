@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,11 +44,17 @@ class Figure
      */
     private $figuresGroup;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figure")
+     */
+    private $media;
+
 
     public function __construct()
     {
         $this->dateCreation = new \DateTimeImmutable();
         $this->dateLastModification = new \DateTime();
+        $this->media = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,6 +118,37 @@ class Figure
     public function setFiguresGroup(?FiguresGroup $figuresGroup): self
     {
         $this->figuresGroup = $figuresGroup;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Media[]
+     */
+    public function getMedia(): Collection
+    {
+        return $this->media;
+    }
+
+    public function addMedium(Media $medium): self
+    {
+        if (!$this->media->contains($medium)) {
+            $this->media[] = $medium;
+            $medium->setFigure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedium(Media $medium): self
+    {
+        if ($this->media->contains($medium)) {
+            $this->media->removeElement($medium);
+            // set the owning side to null (unless already changed)
+            if ($medium->getFigure() === $this) {
+                $medium->setFigure(null);
+            }
+        }
 
         return $this;
     }

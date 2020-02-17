@@ -8,8 +8,11 @@ html, body {
     margin: 0;
 }
 
-.index {
+.pageContent {
     padding-top: 50px;
+}
+
+.index {
     /* Full height */
     height: 100%;
 

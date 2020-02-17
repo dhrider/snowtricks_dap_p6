@@ -36,6 +36,11 @@ class Media
      */
     private $file;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Figure", inversedBy="media")
+     */
+    private $figure;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +90,18 @@ class Media
     public function setFile(string $file): self
     {
         $this->file = $file;
+
+        return $this;
+    }
+
+    public function getFigure(): ?Figure
+    {
+        return $this->figure;
+    }
+
+    public function setFigure(?Figure $figure): self
+    {
+        $this->figure = $figure;
 
         return $this;
     }
