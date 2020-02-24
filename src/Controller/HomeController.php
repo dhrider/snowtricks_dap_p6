@@ -14,12 +14,4 @@ class HomeController extends AbstractController
     {
         return $this->render('home/index.html.twig');
     }
-
-    /**
-     * @Route("/logged/create", name="create_figure")
-     */
-    public function createFigure()
-    {
-        return $this->render('logged/figureCreation.html.twig');
-    }
 }

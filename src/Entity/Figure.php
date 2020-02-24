@@ -45,16 +45,16 @@ class Figure
     private $figuresGroup;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figure")
+     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figure", cascade={"all"}, fetch="EAGER", orphanRemoval=true)
      */
-    private $media;
+    private $medias;
 
 
     public function __construct()
     {
         $this->dateCreation = new \DateTimeImmutable();
         $this->dateLastModification = new \DateTime();
-        $this->media = new ArrayCollection();
+        $this->medias = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,26 +127,26 @@ class Figure
      */
     public function getMedia(): Collection
     {
-        return $this->media;
+        return $this->medias;
     }
 
-    public function addMedium(Media $medium): self
+    public function addMedia(Media $media): self
     {
-        if (!$this->media->contains($medium)) {
-            $this->media[] = $medium;
-            $medium->setFigure($this);
+        if (!$this->medias->contains($media)) {
+            $this->medias[] = $media;
+            $media->setFigure($this);
         }
 
         return $this;
     }
 
-    public function removeMedium(Media $medium): self
+    public function removeMedia(Media $media): self
     {
-        if ($this->media->contains($medium)) {
-            $this->media->removeElement($medium);
+        if ($this->medias->contains($media)) {
+            $this->medias->removeElement($media);
             // set the owning side to null (unless already changed)
-            if ($medium->getFigure() === $this) {
-                $medium->setFigure(null);
+            if ($media->getFigure() === $this) {
+                $media->setFigure(null);
             }
         }
 

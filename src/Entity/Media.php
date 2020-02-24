@@ -27,17 +27,8 @@ class Media
     private $type;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $size;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $file;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Figure", inversedBy="media")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Figure", inversedBy="medias")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $figure;
 
@@ -66,30 +57,6 @@ class Media
     public function setType(string $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    public function getSize(): ?int
-    {
-        return $this->size;
-    }
-
-    public function setSize(int $size): self
-    {
-        $this->size = $size;
-
-        return $this;
-    }
-
-    public function getFile(): ?string
-    {
-        return $this->file;
-    }
-
-    public function setFile(string $file): self
-    {
-        $this->file = $file;
 
         return $this;
     }
