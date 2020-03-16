@@ -2,15 +2,13 @@
 
 namespace App\DataFixtures;
 
-
-use App\Entity\Figure;
 use App\Entity\FiguresGroup;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class FigureGroupFiguresFixtures extends Fixture implements  ContainerAwareInterface
+class FigureGroupFixtures extends Fixture implements  ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -24,7 +22,13 @@ class FigureGroupFiguresFixtures extends Fixture implements  ContainerAwareInter
 
     public function load(ObjectManager $manager)
     {
-        $figureGroupArray = ['Grabs', 'Rotations', 'Flips', 'Slides'];
+        $figureGroupArray = [
+            'Straight airs',
+            'Grabs',
+            'Flips and inverted rotations',
+            'Inverted hand plants',
+            'Slides',
+        ];
 
         foreach ($figureGroupArray as $value) {
             $figureGroup = new FiguresGroup();

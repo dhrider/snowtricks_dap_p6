@@ -72,4 +72,9 @@ class Media
 
         return $this;
     }
+
+    public function getMediaPath()
+    {
+        return 'uploads/images'.$this->getName();
+    }
 }

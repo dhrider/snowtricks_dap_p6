@@ -4,18 +4,32 @@ namespace App\Form;
 
 use App\Entity\Figure;
 use App\Entity\FiguresGroup;
+use App\Entity\Media;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
 class FigureType extends AbstractType
 {
+    private $requestStack;
+    private $imageDirectory;
+
+    public function __construct(RequestStack $requestStack, string $imageDirectory)
+    {
+        $this->requestStack = $requestStack;
+        $this->imageDirectory = $imageDirectory;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -41,22 +55,48 @@ class FigureType extends AbstractType
                 'class' => FiguresGroup::class,
                 'choice_label' => 'name'
             ])
-            ->add('file', FileType::class, [
+            ->add('medias', CollectionType::class, [
                 'label' => false,
-                'mapped' => false,
-                'required' => true,
-                'constraints' => [
-                   new File([
-                       'maxSize' => '2M',
-                       'mimeTypes' => [
-                           'image/jpeg',
-                           'image/png'
-                       ],
-                       'mimeTypesMessage' => 'Please upload a JPG or PNG image file'
-                   ])
+                'allow_add' => true,
+                'prototype' => true,
+                'by_reference' => false,'entry_type' => FileType::class,
+                'entry_options' => [
+                    'label' => false,
+                    'mapped' => false,
+                    'required' => true,
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '2M',
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/png'
+                            ],
+                            'mimeTypesMessage' => 'Please upload a JPG or PNG image file'
+                        ])
+                    ]
                 ]
-
             ])
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $formEvent) {
+                //dd($this->requestStack->getCurrentRequest());
+                $files = $this->requestStack->getCurrentRequest()->files->all()['post']['medias'];
+
+                foreach($files as $file) {
+                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = transliterator_transliterate(
+                        'Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()',
+                        $originalFilename
+                    );
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+                    $file->move($this->imageDirectory,$newFilename);
+
+                    $media = new Media();
+                    $media->setName($newFilename);
+                    $media->setType($file->getClientMimeType());
+
+                    $formEvent->getData()->addMedia($media);
+                }
+            })
             ->add('Submit', SubmitType::class, [
                 'attr' => array(
                     'class' => 'btn-primary pull-left'

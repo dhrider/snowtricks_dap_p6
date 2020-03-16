@@ -3,8 +3,26 @@
 
 {% block pageContent %}
     <div class="container pageContent">
-        <h1>TRICK</h1>
+        <h1 class="pageTitle">TRICK</h1>
         {{ form_start(form) }}
+            {{ form_row(form.name, {'value': ''}) }}
+            {{ form_row(form.description, {'value': ''}) }}
+            {{ form_row(form.figuresGroup, {'value': ''}) }}
+            <div>
+                <button id="add-media" class="btn btn-primary">
+                    <i class="fas fa-file-upload"></i>
+                </button>
+            </div>
+            <div class="medias" data-prototype="{{ form_widget(form.medias.vars.prototype)|e }}" data-index="0"></div>
+            <div id="preview"></div>
         {{ form_end(form) }}
+
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="application/javascript">
+
+    </script>
 {% endblock %}

@@ -1,5 +1,53 @@
+/* Reset CSS */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* App CSS */
+
 html {
-    background: #DDDDDD;
+    background: white;
     position: relative;
 }
 
@@ -8,11 +56,20 @@ html, body {
     margin: 0;
 }
 
-.pageContent {
-    padding-top: 50px;
+/* leave toggled menu open, override method from Stackoverflow */
+.navbar-collapse.in {
+    display: block !important;
 }
 
-.index {
+.pageTitle {
+    margin-bottom: 20px !important;
+}
+
+.pageContent {
+    padding-top: 75px;
+}
+
+.homePhoto {
     /* Full height */
     height: 100%;
 
@@ -20,14 +77,58 @@ html, body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+
+    position: relative;
 }
 
+.scroll {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding-bottom: 33px;
+}
+
+.tricks {
+    height: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.card-img-top {
+    height: 200px;
+}
+
+.card-footer {
+    display: flex;
+}
+
+.push-right {
+    margin-left: auto;
+}
 .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
+    height: 30px;
     background: #f8f8f8;
-    color: #333;
+    color: white;
+    line-height: 30px;
+    vertical-align: center;
 }
 
+.medias {
+    margin-top: 20px;
+}
 
+.media {
+    margin-top: 20px;
+}
+
+#preview {
+    margin-top: 20px;
+}
+
+.delete-media {
+    margin-top: 3px;
+    margin-left: 5px;
+}
