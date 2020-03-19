@@ -32,6 +32,11 @@ class Figure
     private $description;
 
     /**
+     * @ORM\Column(type="json")
+     */
+    private $videoLinks;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $dateCreation;
@@ -48,16 +53,16 @@ class Figure
     private $figuresGroup;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Media", mappedBy="figure", cascade={"all"}, fetch="EAGER", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="figure", cascade={"all"}, fetch="EAGER", orphanRemoval=true)
      */
-    private $medias;
+    private $images;
 
 
     public function __construct()
     {
         $this->dateCreation = new \DateTimeImmutable();
         $this->dateLastModification = new \DateTime();
-        $this->medias = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,6 +118,32 @@ class Figure
         return $this;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getVideoLinks()
+    {
+        return $this->videoLinks;
+    }
+
+    /**
+     * @param Collection $videoLinks
+     */
+    public function setVideoLinks(Collection $videoLinks): void
+    {
+        $this->videoLinks = $videoLinks;
+    }
+
+    public function addVideoLink() : self
+    {
+
+    }
+
+    public function removeVideoLink() : self
+    {
+
+    }
+
     public function getFiguresGroup(): ?FiguresGroup
     {
         return $this->figuresGroup;
@@ -126,39 +157,39 @@ class Figure
     }
 
     /**
-     * @return Collection|Media[]
+     * @return Collection|Image[]
      */
-    public function getMedias(): Collection
+    public function getImages(): Collection
     {
-        return $this->medias;
+        return $this->images;
     }
 
     /**
-     * @param Collection $medias
+     * @param Collection $image
      */
-    public function setMedias(Collection $medias): void
+    public function setImages(Collection $image): void
     {
-        $this->medias = $medias;
+        $this->$image = $image;
     }
 
 
-    public function addMedia(Media $media): self
+    public function addImage(Image $image): self
     {
-        if (!$this->medias->contains($media)) {
-            $this->medias[] = $media;
-            $media->setFigure($this);
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setFigure($this);
         }
 
         return $this;
     }
 
-    public function removeMedia(Media $media): self
+    public function removeImage(Image $image): self
     {
-        if ($this->medias->contains($media)) {
-            $this->medias->removeElement($media);
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
             // set the owning side to null (unless already changed)
-            if ($media->getFigure() === $this) {
-                $media->setFigure(null);
+            if ($image->getFigure() === $this) {
+                $image->setFigure(null);
             }
         }
 

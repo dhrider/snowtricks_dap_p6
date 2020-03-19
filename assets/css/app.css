@@ -116,19 +116,15 @@ html, body {
     vertical-align: center;
 }
 
-.medias {
+.images, .videoLinks{
     margin-top: 20px;
 }
 
-.media {
-    margin-top: 20px;
+.image, .videoLink {
+    margin-top: 10px;
 }
 
 #preview {
-    margin-top: 20px;
+    margin: 5px;
 }
 
-.delete-media {
-    margin-top: 3px;
-    margin-left: 5px;
-}

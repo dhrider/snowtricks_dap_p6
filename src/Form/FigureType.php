@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Figure;
 use App\Entity\FiguresGroup;
-use App\Entity\Media;
+use App\Entity\Image;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -55,11 +55,24 @@ class FigureType extends AbstractType
                 'class' => FiguresGroup::class,
                 'choice_label' => 'name'
             ])
-            ->add('medias', CollectionType::class, [
+            ->add('videoLinks', CollectionType::class, [
                 'label' => false,
                 'allow_add' => true,
                 'prototype' => true,
-                'by_reference' => false,'entry_type' => FileType::class,
+                'by_reference' => false,
+                'entry_type' => TextType::class,
+                'entry_options' => [
+                    'label' => false,
+                    'mapped' => false,
+                    'required' => false
+                ]
+            ])
+            ->add('images', CollectionType::class, [
+                'label' => false,
+                'allow_add' => true,
+                'prototype' => true,
+                'by_reference' => false,
+                'entry_type' => FileType::class,
                 'entry_options' => [
                     'label' => false,
                     'mapped' => false,
@@ -77,8 +90,9 @@ class FigureType extends AbstractType
                 ]
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $formEvent) {
-                //dd($this->requestStack->getCurrentRequest());
-                $files = $this->requestStack->getCurrentRequest()->files->all()['post']['medias'];
+                //dd($links = $this->requestStack->getCurrentRequest()->request->all()['post']['videoLinks']);
+                $files = $this->requestStack->getCurrentRequest()->files->all()['post']['images'];
+                $links = $this->requestStack->getCurrentRequest()->request->all()['post']['videoLinks'];
 
                 foreach($files as $file) {
                     $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -90,11 +104,15 @@ class FigureType extends AbstractType
 
                     $file->move($this->imageDirectory,$newFilename);
 
-                    $media = new Media();
-                    $media->setName($newFilename);
-                    $media->setType($file->getClientMimeType());
+                    $image = new Image();
+                    $image->setName($newFilename);
+                    $image->setType($file->getClientMimeType());
 
-                    $formEvent->getData()->addMedia($media);
+                    $formEvent->getData()->addImage($image);
+                }
+
+                foreach ($links as $link) {
+                    $formEvent->getData()->setVideoLinks($link);
                 }
             })
             ->add('Submit', SubmitType::class, [

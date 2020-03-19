@@ -8,6 +8,7 @@ $(document).ready(function() {
     const arrow = document.getElementById('arrow');
     let up = false;
     $(document).on('click', '#scroll', function (e) {
+        e.preventDefault();
         if(!up) {
             scrollArrow.setAttribute('href', '#tricks');
             scrollArrow.scrollIntoView(true);
@@ -23,62 +24,76 @@ $(document).ready(function() {
         }
     });
 
-    let mediaCount = $('form .media').length;
-    $(document).on('click', '#add-media', function (e) {
+    let imageCount = $('form .image').length;
+    $(document).on('click', '#add-image', function (e) {
         e.preventDefault();
         // on récupère la div d'id Billet
-        let medias = $('.medias');
+        let images = $('.images');
         // on définit le numéro du billet qui servira pour l'identifier
-        let media = medias.data('prototype').replace(/__name__/g,(medias.data('index')+ mediaCount));
-        let newMedia = $('<div class="media"></div>').html(media);
-        let btnDelete = $('<a class="btn btn-danger delete-media btn-sm" href="#"><i class="far fa-trash-alt"></i></a>');
-        mediaCount++;
+        let image = images.data('prototype').replace(/__name__/g,(images.data('index') + imageCount));
+        let newImage = $('<div class="image input-group"></div>').html(image);
+        let btnDelete = $('<div class="input-group-append delete-image ">'+
+                                '<span class="input-group-text" id=""><i class="far fa-trash-alt"></i></span>' +
+                          '</div>'
+        );
+        imageCount++;
 
-        newMedia.append(btnDelete);
-        newMedia.appendTo(medias);
+        newImage.append(btnDelete);
+        newImage.appendTo(images);
     });
 
-    $(document).on('click', '.delete-media', function(e) {
+    let linkCount = $('form .videoLink').length;
+    $(document).on('click', '#add-link', function (e) {
         e.preventDefault();
-        $(e.target).closest('.media').remove();
+        // on récupère la div d'id Billet
+        let videoLinks = $('.videoLinks');
+        // on définit le numéro du billet qui servira pour l'identifier
+        let videoLink = videoLinks.data('prototype').replace(/__name__/g,(videoLinks.data('index')+ linkCount));
+        let newVideoLink = $('<div class="videoLink input-group"></div>').html(videoLink);
+        let btnDelete = $('<div class="input-group-append delete-videoLink">'+
+                                '<span class="input-group-text" id=""><i class="far fa-trash-alt"></i></span>' +
+                          '</div>'
+        );
+        linkCount++;
+
+        newVideoLink.append(btnDelete);
+        newVideoLink.appendTo(videoLinks);
     });
 
-    $(document).on('change', '.custom-file-input', function(e) {
+    $(document).on('click', '.delete-image', function(e) {
         e.preventDefault();
-        let inputFile = e.currentTarget;
-        console.log($(inputFile).parent())
+        let imageName = $(e.currentTarget).parent().find('.custom-file-label').text();
+        document.getElementById(imageName).remove();
+        $(e.target).closest('.image').remove();
+    });
+
+    $(document).on('click', '.delete-videoLink', function(e) {
+        e.preventDefault();
+        $(e.target).closest('.videoLink').remove();
+    });
+
+    $(document).on('change', '.images input[type=file]',  function (element) {
+        let inputFile = element.currentTarget;
         $(inputFile).parent()
             .find('.custom-file-label')
             .html(inputFile.files[0].name);
-    });
 
-    /*$('.medias').on('change', function () {
         let preview = document.querySelector('#preview');
-        let files   = document.querySelector('input[type=file]').files;
+        const file = this.files[0];
+        let reader = new FileReader();
 
-        function readAndPreview(file) {
+        reader.addEventListener("load", function () {
+            let image = new Image();
+            image.height = 100;
+            image.title = file.name;
+            image.src = this.result;
+            image.id = inputFile.files[0].name;
+            preview.appendChild( image );
+        }, false);
 
-            // Veillez à ce que `file.name` corresponde à nos critères d’extension
-            if ( /\.(jpe?g|png|gif)$/i.test(file.name) ) {
-                let reader = new FileReader();
+        reader.readAsDataURL(file);
 
-                reader.addEventListener("load", function () {
-                    let image = new Image();
-                    image.height = 100;
-                    image.title = file.name;
-                    image.src = this.result;
-                    preview.appendChild( image );
-                }, false);
-
-                reader.readAsDataURL(file);
-            }
-
-        }
-
-        if (files) {
-            [].forEach.call(files, readAndPreview);
-        }
-    })*/
+    });
 
 
 });

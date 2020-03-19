@@ -39,4 +39,19 @@ class FigureController extends AbstractController
             'form' => $form->createView()
         ));
     }
+
+    /**
+     * @Route("/logged/edit", name="edit_figure")
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function editFigure(Request $request, EntityManagerInterface $em) {
+
+
+
+        return $this->render('logged.figureEdit.html.twig', [
+
+        ]);
+    }
 }
