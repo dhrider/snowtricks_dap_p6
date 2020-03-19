@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Scalar\String_;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -119,7 +120,7 @@ class Figure
     }
 
     /**
-     * @return Collection
+     * @return Collection | String
      */
     public function getVideoLinks()
     {
@@ -134,14 +135,20 @@ class Figure
         $this->videoLinks = $videoLinks;
     }
 
-    public function addVideoLink() : self
+    public function addVideoLink(String $videoLink) : self
     {
+        $this->videoLinks[] = $videoLink;
 
+        return $this;
     }
 
-    public function removeVideoLink() : self
+    public function removeVideoLink(String $videoLink) : self
     {
+        unset($this->videoLinks[$videoLink]);
 
+        $this->videoLinks = array_values($this->videoLinks);
+
+        return $this;
     }
 
     public function getFiguresGroup(): ?FiguresGroup

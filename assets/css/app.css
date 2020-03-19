@@ -124,7 +124,7 @@ html, body {
     margin-top: 10px;
 }
 
-#preview {
-    margin: 5px;
+.imageThumb {
+    margin-right: 5px;
 }
 

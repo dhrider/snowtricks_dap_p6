@@ -112,7 +112,7 @@ class FigureType extends AbstractType
                 }
 
                 foreach ($links as $link) {
-                    $formEvent->getData()->setVideoLinks($link);
+                    $formEvent->getData()->addVideoLink($link);
                 }
             })
             ->add('Submit', SubmitType::class, [

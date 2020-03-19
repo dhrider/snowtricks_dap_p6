@@ -8,7 +8,6 @@ $(document).ready(function() {
     const arrow = document.getElementById('arrow');
     let up = false;
     $(document).on('click', '#scroll', function (e) {
-        e.preventDefault();
         if(!up) {
             scrollArrow.setAttribute('href', '#tricks');
             scrollArrow.scrollIntoView(true);
@@ -88,6 +87,7 @@ $(document).ready(function() {
             image.title = file.name;
             image.src = this.result;
             image.id = inputFile.files[0].name;
+            image.classList.add('imageThumb');
             preview.appendChild( image );
         }, false);
 
