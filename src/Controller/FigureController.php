@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
-use App\Form\FigureType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\FigureRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FigureController extends AbstractController
 {
-    public function listTricks(EntityManagerInterface $entityManager)
+    public function listTricks(FigureRepository $figureRepository)
     {
-        return $entityManager->getRepository(Figure::class)->findAll();
+        return $figureRepository->findAll();
     }
 }

@@ -119,10 +119,7 @@ class Figure
         return $this;
     }
 
-    /**
-     * @return Collection | String
-     */
-    public function getVideoLinks()
+    public function getVideoLinks() : array
     {
         return $this->videoLinks;
     }
@@ -135,14 +132,14 @@ class Figure
         $this->videoLinks = $videoLinks;
     }
 
-    public function addVideoLink(String $videoLink) : self
+    public function addVideoLink(string $videoLink) : self
     {
         $this->videoLinks[] = $videoLink;
 
         return $this;
     }
 
-    public function removeVideoLink(String $videoLink) : self
+    public function removeVideoLink(string $videoLink) : self
     {
         unset($this->videoLinks[$videoLink]);
 

@@ -90,7 +90,6 @@ class FigureType extends AbstractType
                 ]
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $formEvent) {
-                //dd($links = $this->requestStack->getCurrentRequest()->request->all()['post']['videoLinks']);
                 $files = $this->requestStack->getCurrentRequest()->files->all()['post']['images'];
                 $links = $this->requestStack->getCurrentRequest()->request->all()['post']['videoLinks'];
 

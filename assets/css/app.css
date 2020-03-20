@@ -47,13 +47,13 @@ table {
 /* App CSS */
 
 html {
-    background: white;
     position: relative;
 }
 
 html, body {
     height: 100%;
     margin: 0;
+    background: #56b7fe;
 }
 
 /* leave toggled menu open, override method from Stackoverflow */
@@ -110,7 +110,7 @@ html, body {
     bottom: 0;
     width: 100%;
     height: 30px;
-    background: #f8f8f8;
+    background: #686f82;
     color: white;
     line-height: 30px;
     vertical-align: center;
