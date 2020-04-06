@@ -13,7 +13,7 @@ class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
-     * @param EntityManagerInterface $entityManager
+     * @param FigureRepository $figureRepository
      * @return Response
      */
     public function home(FigureRepository $figureRepository)

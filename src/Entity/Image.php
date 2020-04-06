@@ -75,6 +75,6 @@ class Image
 
     public function getImagePath() : string
     {
-        return 'uploads/images'.$this->getName();
+        return '/uploads/images/'.$this->getName();
     }
 }

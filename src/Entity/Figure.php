@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Array_;
 use PhpParser\Node\Scalar\String_;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -64,6 +65,7 @@ class Figure
         $this->dateCreation = new \DateTimeImmutable();
         $this->dateLastModification = new \DateTime();
         $this->images = new ArrayCollection();
+        $this->videoLinks = array();
     }
 
     public function getId(): ?int
@@ -124,10 +126,7 @@ class Figure
         return $this->videoLinks;
     }
 
-    /**
-     * @param Collection $videoLinks
-     */
-    public function setVideoLinks(Collection $videoLinks): void
+    public function setVideoLinks(array $videoLinks): void
     {
         $this->videoLinks = $videoLinks;
     }

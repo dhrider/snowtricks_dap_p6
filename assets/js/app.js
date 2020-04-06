@@ -33,7 +33,7 @@ $(document).ready(function() {
         // on définit le numéro du billet qui servira pour l'identifier
         let image = images.data('prototype').replace(/__name__/g,(images.data('index') + imageCount));
         let newImage = $('<div class="image input-group"></div>').html(image);
-        let btnDelete = $('<div class="input-group-append delete-image ">'+
+        let btnDelete = $('<div class="input-group-append delete-image">'+
                                 '<span class="input-group-text" id=""><i class="far fa-trash-alt"></i></span>' +
                           '</div>'
         );
@@ -67,8 +67,8 @@ $(document).ready(function() {
         e.preventDefault();
         // on récupère le nom du fichier qui est également l'id de l'input
         let imageName = $(e.currentTarget).parent().find('.custom-file-label').text();
-        // on delete l'image
-        document.getElementById(imageName).remove();
+        // on delete l'image si une est bien uploadée
+        if(imageName) document.getElementById(imageName).remove();
         // on delete l'input
         $(e.target).closest('.image').remove();
     });

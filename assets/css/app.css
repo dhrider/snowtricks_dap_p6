@@ -128,3 +128,13 @@ html, body {
     margin-right: 5px;
 }
 
+.media {
+    display: flex;
+    overflow: auto;
+}
+
+.media img {
+    width:auto;
+    height:200px !important;
+}
+

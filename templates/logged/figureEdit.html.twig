@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+
+{% block pageContent %}
+    <div class="container pageContent">
+        <h1>EDIT TRICKS</h1>
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.figuresGroup) }}
+
+        <div class="media">
+            {% for videoLink in form.vars.data.videoLinks %}
+                <iframe src="{{ videoLink | replace({'watch?v=' : 'embed/'}) }}" frameborder="0" height="200px"></iframe>
+            {% endfor %}
+            {% for image in  form.vars.data.images %}
+                <img src="{{ image.getImagePath() }}"/>
+            {% endfor %}
+        </div>
+        {{ form_row(form.submit) }}
+    </div>
+{% endblock %}

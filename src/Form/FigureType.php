@@ -114,7 +114,7 @@ class FigureType extends AbstractType
                     $formEvent->getData()->addVideoLink($link);
                 }
             })
-            ->add('Submit', SubmitType::class, [
+            ->add('submit', SubmitType::class, [
                 'attr' => array(
                     'class' => 'btn-primary pull-left'
                 ),
