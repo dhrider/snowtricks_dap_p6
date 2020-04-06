@@ -4,8 +4,12 @@ namespace App\Controller\Logged;
 
 use App\Entity\Figure;
 use App\Form\FigureType;
+use App\Repository\FigureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,6 +59,7 @@ class FigureController extends AbstractController
         $form = $this->createForm(FigureType::class, $figure);
 
         if($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            //dd($request);
             $figure->setDateLastModification(new \DateTime());
 
             $em->persist($figure);
@@ -68,4 +73,19 @@ class FigureController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/logged/delete/{id})", name="delete_figure")
+     * @param EntityManagerInterface $em
+     * @param Figure $figure
+     * @return RedirectResponse
+     */
+    public function deleteFigure(EntityManagerInterface  $em, Figure $figure) {
+        $em->remove($figure);
+        $em->flush();
+
+        return $this->redirectToRoute('home');
+    }
 }
+
+

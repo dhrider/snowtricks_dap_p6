@@ -4,6 +4,7 @@
 {% block pageContent %}
     <div class="container pageContent">
         <h1>EDIT TRICKS</h1>
+        {{ form_start(form) }}
         {{ form_row(form.name) }}
         {{ form_row(form.description) }}
         {{ form_row(form.figuresGroup) }}
@@ -16,6 +17,7 @@
                 <img src="{{ image.getImagePath() }}"/>
             {% endfor %}
         </div>
-        {{ form_row(form.submit) }}
+
+
     </div>
 {% endblock %}
