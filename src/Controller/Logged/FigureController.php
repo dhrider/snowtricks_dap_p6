@@ -54,19 +54,15 @@ class FigureController extends AbstractController
      * @throws Exception
      */
     public function editFigure(Request $request, EntityManagerInterface $em, Figure $figure) {
-
-        //dd($figure);
         $form = $this->createForm(FigureType::class, $figure);
 
         if($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-            //dd($request);
             $figure->setDateLastModification(new \DateTime());
 
             $em->persist($figure);
             $em->flush();
 
             return $this->redirectToRoute('home');
-
         }
 
         return $this->render('logged/figureEdit.html.twig', [
@@ -81,9 +77,16 @@ class FigureController extends AbstractController
      * @return RedirectResponse
      */
     public function deleteFigure(EntityManagerInterface  $em, Figure $figure) {
+        // on récupère les images liées à la figure
+        $images = $figure->getImages();
+        //on les efface du dossier upload
+        foreach ($images as $image) {
+            unlink($image->getImagePath());
+        }
+        // on supprime la figure de la BDD
         $em->remove($figure);
         $em->flush();
-
+        //on redirige vers la page 'home'
         return $this->redirectToRoute('home');
     }
 }
