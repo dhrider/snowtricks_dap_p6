@@ -131,10 +131,21 @@ html, body {
 .media {
     display: flex;
     overflow: auto;
+    margin-bottom: 50px;
 }
 
 .media img {
     width:auto;
     height:200px !important;
+}
+.top_image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+.top_image img {
+    width: auto;
+    height: 350px;
 }
 

@@ -198,4 +198,9 @@ class Figure
 
         return $this;
     }
+
+    public function getFirstImage() : string
+    {
+        return $this->getImages()->first()->getImagePath();
+    }
 }

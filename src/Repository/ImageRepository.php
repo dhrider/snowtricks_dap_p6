@@ -19,5 +19,14 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
+    public function getFirstImage() {
+        $qb = $this->createQueryBuilder('i');
 
+        $qb
+            ->select('i')
+            ->getFirstResult()
+        ;
+
+        return $qb;
+    }
 }

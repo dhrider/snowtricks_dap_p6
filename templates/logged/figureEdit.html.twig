@@ -3,11 +3,10 @@
 
 {% block pageContent %}
     <div class="container pageContent">
-        <h1>EDIT TRICKS</h1>
         {{ form_start(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.figuresGroup) }}
+        <div class="top_image">
+            <img src="{{ figure.firstImage }}" alt="">
+        </div>
 
         <div class="media">
             {% for videoLink in form.vars.data.videoLinks %}
@@ -18,6 +17,18 @@
             {% endfor %}
         </div>
 
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.figuresGroup) }}
+
+        <div class="inputs">
+            {% for videoLink in form.vars.data.videoLinks %}
+                
+            {% endfor %}
+            {% for image in  form.vars.data.images %}
+
+            {% endfor %}
+        </div>
 
     </div>
 {% endblock %}

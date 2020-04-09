@@ -4,11 +4,8 @@ namespace App\Controller\Logged;
 
 use App\Entity\Figure;
 use App\Form\FigureType;
-use App\Repository\FigureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -66,7 +63,8 @@ class FigureController extends AbstractController
         }
 
         return $this->render('logged/figureEdit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'figure' => $figure
         ]);
     }
 
