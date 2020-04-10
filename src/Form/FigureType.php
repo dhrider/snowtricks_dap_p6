@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Figure;
 use App\Entity\FiguresGroup;
-use App\Entity\Image;
+use App\Form\EventListener\ImageEventListener;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -13,8 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -89,31 +87,7 @@ class FigureType extends AbstractType
                     ]
                 ]
             ])
-            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $formEvent) {
-                $files = $this->requestStack->getCurrentRequest()->files->all()['post']['images'];
-                $links = $this->requestStack->getCurrentRequest()->request->all()['post']['videoLinks'];
-
-                foreach($files as $file) {
-                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = transliterator_transliterate(
-                        'Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()',
-                        $originalFilename
-                    );
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-
-                    $file->move($this->imageDirectory,$newFilename);
-
-                    $image = new Image();
-                    $image->setName($newFilename);
-                    $image->setType($file->getClientMimeType());
-
-                    $formEvent->getData()->addImage($image);
-                }
-
-                foreach ($links as $link) {
-                    $formEvent->getData()->addVideoLink($link);
-                }
-            })
+            ->addEventSubscriber(new ImageEventListener($this->requestStack, $this->imageDirectory))
             ->add('submit', SubmitType::class, [
                 'attr' => array(
                     'class' => 'btn-primary pull-left'

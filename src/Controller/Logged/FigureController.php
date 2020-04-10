@@ -25,16 +25,12 @@ class FigureController extends AbstractController
         $figure = new Figure();
 
         $form = $this->createForm(FigureType::class, $figure);
+        $form->handleRequest($request);
 
-
-
-        if($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-
+        if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
             $em->persist($figure);
             $em->flush();
-
             return $this->redirectToRoute('create_figure');
-
         }
 
         return $this->render('logged/figureCreation.html.twig', array(
@@ -52,13 +48,12 @@ class FigureController extends AbstractController
      */
     public function editFigure(Request $request, EntityManagerInterface $em, Figure $figure) {
         $form = $this->createForm(FigureType::class, $figure);
+        $form->handleRequest($request);
 
-        if($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+        if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
             $figure->setDateLastModification(new \DateTime());
-
             $em->persist($figure);
             $em->flush();
-
             return $this->redirectToRoute('home');
         }
 
