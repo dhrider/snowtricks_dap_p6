@@ -94,10 +94,6 @@ html, body {
     margin-bottom: 50px;
 }
 
-.card-img-top {
-    height: 200px;
-}
-
 .card-footer {
     display: flex;
 }
@@ -130,14 +126,17 @@ html, body {
 
 .media {
     display: flex;
-    overflow: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 50px;
 }
 
-.media img {
-    width:auto;
-    height:200px !important;
+.media_item {
+    width: auto;
+    height: 200px;
 }
+
 .top_image {
     display: flex;
     justify-content: center;
@@ -148,4 +147,5 @@ html, body {
     width: auto;
     height: 350px;
 }
+
 

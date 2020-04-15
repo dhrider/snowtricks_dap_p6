@@ -21,9 +21,10 @@ class ImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('image', FileType::class, [
+            'label' => false,
             'mapped' => false
         ]);
         $builder->add('submit', SubmitType::class);
-        $builder->add($this->imageEventListener);
+        $builder->addEventSubscriber($this->imageEventListener);
     }
 }

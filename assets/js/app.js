@@ -86,7 +86,7 @@ $(document).ready(function() {
         $(inputFile).parent()
             .find('.custom-file-label')
             .html(inputFile.files[0].name);
-
+        console.log('image');
         // on récupère la div qui contiendra les images en thumbnail
         let preview = document.querySelector('#preview');
 

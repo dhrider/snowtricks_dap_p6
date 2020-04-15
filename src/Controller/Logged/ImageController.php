@@ -26,6 +26,8 @@ class ImageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->persist($image);
             $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('logged/image/edit.html.twig', [

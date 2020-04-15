@@ -10,16 +10,29 @@
 
         <div class="media">
             {% for videoLink in form.vars.data.videoLinks %}
-                <iframe src="{{ videoLink | replace({'watch?v=' : 'embed/'}) }}" frameborder="0" height="200px"></iframe>
+                <div>
+                    <iframe class="media_item"  src="{{ videoLink | replace({'watch?v=' : 'embed/'}) }}"></iframe>
+                    <div>
+                        <a class="btn btn-primary" href=""><i class="far fa-edit"></i></a>
+                        <a class="btn btn-danger" href=""><i class="far fa-trash-alt"></i></a>
+                    </div>
+                </div>
             {% endfor %}
             {% for image in  form.vars.data.images %}
-                <img src="{{ image.getImagePath() }}"/>
+                <div>
+                    <img class="media_item" src="{{ image.getImagePath() }}"/>
+                    <div>
+                        <a class="btn btn-primary" href="{{ path('edit_image' , {'id' : image.id}) }}"><i class="far fa-edit"></i></a>
+                        <a class="btn btn-danger" href=""><i class="far fa-trash-alt"></i></a>
+                    </div>
+                </div>
             {% endfor %}
         </div>
 
         {{ form_row(form.name) }}
         {{ form_row(form.description) }}
         {{ form_row(form.figuresGroup) }}
+        {{ form_row(form.submit) }}
 
         <div class="inputs">
             {% for videoLink in form.vars.data.videoLinks %}
@@ -29,6 +42,6 @@
 
             {% endfor %}
         </div>
-
+        {{ form_end(form) }}
     </div>
 {% endblock %}
