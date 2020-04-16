@@ -94,6 +94,10 @@ html, body {
     margin-bottom: 50px;
 }
 
+.card {
+    margin-left: 20px;
+}
+
 .card-footer {
     display: flex;
 }
@@ -116,10 +120,6 @@ html, body {
     margin-top: 20px;
 }
 
-.image, .videoLink {
-    margin-top: 10px;
-}
-
 .imageThumb {
     margin-right: 5px;
 }
@@ -132,7 +132,7 @@ html, body {
     margin-bottom: 50px;
 }
 
-.media_item {
+.card_image {
     width: auto;
     height: 200px;
 }
