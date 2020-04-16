@@ -42,8 +42,8 @@ class ImageEventListener implements EventSubscriberInterface
             $links = $this->request->request->all()['post']['videoLinks'];
         }
 
-        if(isset($files['media'])) {
-            $images = $files['media'];
+        if(isset($files['image'])) {
+            $images = $files['image'];
         }
 
         foreach($images as $file) {
