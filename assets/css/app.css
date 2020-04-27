@@ -67,6 +67,7 @@ html, body {
 
 .pageContent {
     padding-top: 75px;
+    padding-bottom: 100px !important;
 }
 
 .homePhoto {
@@ -95,7 +96,8 @@ html, body {
 }
 
 .card {
-    margin-left: 20px;
+    width: 350px;
+    margin-left: 50px;
 }
 
 .card-footer {
@@ -133,19 +135,28 @@ html, body {
 }
 
 .card_image {
-    width: auto;
     height: 200px;
 }
 
+#card_top {
+    width: 700px;
+}
+
 .top_image {
+
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 50px;
 }
 .top_image img {
+    position: relative;
     width: auto;
     height: 350px;
 }
 
-
+.button {
+    position: absolute;
+    right: 225px;
+    top: 95px;
+}

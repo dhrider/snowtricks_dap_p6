@@ -203,4 +203,9 @@ class Figure
     {
         return $this->getImages()->first()->getImagePath();
     }
+
+    public function getFirstImageId() : int
+    {
+        return $this->getImages()->first()->getId();
+    }
 }

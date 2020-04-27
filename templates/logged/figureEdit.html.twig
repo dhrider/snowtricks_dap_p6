@@ -5,9 +5,19 @@
     <div class="container pageContent">
         {{ form_start(form) }}
         <div class="top_image">
-            <img src="{{ figure.firstImage }}" alt="">
+            <div id="card_top" class="card border-dark mb-4">
+                <img class="card_image" src="{{ figure.firstImage }}"/>
+                <div class="card-footer">
+                    <div class="push-right">
+                        <a class="btn btn-primary" href="{{ path('edit_image' , {'id' : figure.firstImageId}) }}"><i class="far fa-edit"></i></a>
+                        {{ include('logged/image/deleteFirstImageModal.html.twig') }}
+                    </div>
+                </div>
+            </div>
         </div>
-
+        {% if app.request.get('success') %}
+            {% include 'messageFlash.html.twig' with {'buttonId': 'imageUpdated'} %}
+        {% endif %}
         <div class="media">
             {% for videoLink in form.vars.data.videoLinks %}
                 <div class="card border-dark mb-4">
@@ -21,15 +31,18 @@
                 </div>
             {% endfor %}
             {% for image in  form.vars.data.images %}
-                <div class="card border-dark mb-4">
-                    <img class="card_image" src="{{ image.getImagePath() }}"/>
-                    <div class="card-footer">
-                        <div class="push-right">
-                            <a class="btn btn-primary" href="{{ path('edit_image' , {'id' : image.id}) }}"><i class="far fa-edit"></i></a>
-                            <a class="btn btn-danger" href=""><i class="far fa-trash-alt"></i></a>
+                {% if not loop.first %}
+                    <div class="card border-dark mb-4">
+                        <img class="card_image" src="{{ image.getImagePath() }}"/>
+                        <div class="card-footer">
+                            <div class="push-right">
+                                <a class="btn btn-primary" href="{{ path('edit_image' , {'id' : image.id}) }}"><i class="far fa-edit"></i></a>
+                                {{ include('logged/image/deleteImageModal.html.twig') }}
+                            </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
             {% endfor %}
         </div>
 
@@ -38,14 +51,6 @@
         {{ form_row(form.figuresGroup) }}
         {{ form_row(form.submit) }}
 
-        <div class="inputs">
-            {% for videoLink in form.vars.data.videoLinks %}
-                
-            {% endfor %}
-            {% for image in  form.vars.data.images %}
-
-            {% endfor %}
-        </div>
         {{ form_end(form) }}
     </div>
 {% endblock %}

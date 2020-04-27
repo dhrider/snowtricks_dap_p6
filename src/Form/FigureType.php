@@ -12,10 +12,14 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Component\Validator\Constraints\Valid;
 
 class FigureType extends AbstractType
 {
@@ -53,12 +57,17 @@ class FigureType extends AbstractType
                 'class' => FiguresGroup::class,
                 'choice_label' => 'name'
             ])
-            ->add('videoLinks', CollectionType::class, [
+        ;
+        if($builder->getData()->getId() === null) {
+            $builder->add('videoLinks', CollectionType::class, [
                 'label' => false,
                 'allow_add' => true,
                 'prototype' => true,
                 'by_reference' => false,
                 'entry_type' => TextType::class,
+                'constraints' => [
+
+                ],
                 'entry_options' => [
                     'label' => false,
                     'mapped' => false,
@@ -86,21 +95,22 @@ class FigureType extends AbstractType
                         ])
                     ]
                 ]
-            ])
-            ->addEventSubscriber(new ImageEventListener($this->requestStack, $this->imageDirectory))
-            ->add('submit', SubmitType::class, [
-                'attr' => array(
-                    'class' => 'btn-primary pull-left'
-                ),
-                'label' => 'Save'
-            ])
-        ;
+            ]);
+        }
+        $builder->addEventSubscriber(new ImageEventListener($this->requestStack, $this->imageDirectory))
+        ->add('submit', SubmitType::class, [
+            'attr' => array(
+                'class' => 'btn-primary pull-left'
+            ),
+            'label' => 'Save'
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Figure::class,
+            'cascade_validation' => true
         ]);
     }
 
