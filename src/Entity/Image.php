@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -77,5 +78,4 @@ class Image
     {
         return '/uploads/images/'.$this->getName();
     }
-
 }

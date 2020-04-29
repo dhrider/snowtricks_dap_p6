@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 
-
 {% block pageContent %}
     <div class="container pageContent">
         {{ form_start(form) }}
@@ -10,7 +9,9 @@
                 <div class="card-footer">
                     <div class="push-right">
                         <a class="btn btn-primary" href="{{ path('edit_image' , {'id' : figure.firstImageId}) }}"><i class="far fa-edit"></i></a>
-                        {{ include('logged/image/deleteFirstImageModal.html.twig') }}
+                        {%  if figure.countImages() != 1  %}
+                            {{ include('logged/image/deleteFirstImageModal.html.twig') }}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -24,7 +25,7 @@
                     <iframe class="card_image" src="{{ videoLink | replace({'watch?v=' : 'embed/'}) }}"></iframe>
                     <div class="card-footer">
                         <div class="push-right">
-                            <a class="btn btn-primary" href=""><i class="far fa-edit"></i></a>
+                            <a class="btn btn-primary" href="{{ path('edit_link') }}"><i class="far fa-edit"></i></a>
                             <a class="btn btn-danger" href=""><i class="far fa-trash-alt"></i></a>
                         </div>
                     </div>

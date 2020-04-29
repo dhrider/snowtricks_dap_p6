@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\ImageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,6 +36,7 @@ class Figure
 
     /**
      * @ORM\Column(type="json")
+     *
      */
     private $videoLinks;
 
@@ -207,5 +209,10 @@ class Figure
     public function getFirstImageId() : int
     {
         return $this->getImages()->first()->getId();
+    }
+
+    public function countImages() : int
+    {
+        return $this->getImages()->count();
     }
 }

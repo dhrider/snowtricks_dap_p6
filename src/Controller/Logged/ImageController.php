@@ -2,13 +2,12 @@
 
 namespace App\Controller\Logged;
 
-
-use App\Entity\Figure;
 use App\Entity\Image;
 use App\Form\ImageType;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,11 +61,12 @@ class ImageController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param ImageRepository $imageRepository
+     * @return RedirectResponse
      */
     public function deleteImage(Image $image, Request $request, EntityManagerInterface $entityManager, ImageRepository $imageRepository)
     {
         unlink($this->imageDirectory . $image->getName());
-        $entityManager->remove( $imageRepository->find($image->getId()));
+        $entityManager->remove($imageRepository->find($image->getId()));
         $entityManager->flush();
 
         return $this->redirect($this->generateUrl('edit_figure', ['id' => $image->getFigure()->getId()]));

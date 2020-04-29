@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Figure;
 use App\Entity\FiguresGroup;
 use App\Form\EventListener\ImageEventListener;
+use App\Validator\Constrainsts\VideoLink;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -12,14 +13,10 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Url;
-use Symfony\Component\Validator\Constraints\Valid;
 
 class FigureType extends AbstractType
 {
@@ -65,13 +62,13 @@ class FigureType extends AbstractType
                 'prototype' => true,
                 'by_reference' => false,
                 'entry_type' => TextType::class,
-                'constraints' => [
-
-                ],
                 'entry_options' => [
                     'label' => false,
                     'mapped' => false,
-                    'required' => false
+                    'required' => false,
+                    'constraints' => [
+                        new VideoLink()
+                    ]
                 ]
             ])
             ->add('images', CollectionType::class, [
