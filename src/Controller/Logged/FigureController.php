@@ -3,6 +3,7 @@
 namespace App\Controller\Logged;
 
 use App\Entity\Figure;
+use App\Entity\Image;
 use App\Form\FigureType;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -32,10 +33,11 @@ class FigureController extends AbstractController
     public function createFigure(Request $request, EntityManagerInterface $em, ValidatorInterface $validator)
     {
         $figure = new Figure();
+        //$figure->addImage(New Image()); // on initialise l'input image pour forcer son affichage dans le form
 
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
-        //dd($figure);
+
         $success = false;
 
         if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {

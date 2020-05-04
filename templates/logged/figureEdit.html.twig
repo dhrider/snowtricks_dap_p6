@@ -5,10 +5,12 @@
         {{ form_start(form) }}
         <div class="top_image">
             <div id="card_top" class="card border-dark mb-4">
-                <img class="card_image" src="{{ figure.firstImage }}"/>
+                <img class="card_image" src="{{ figure.firstImage }}" alt="image"/>
                 <div class="card-footer">
                     <div class="push-right">
-                        <a class="btn btn-primary" href="{{ path('edit_image' , {'id' : figure.firstImageId}) }}"><i class="far fa-edit"></i></a>
+                        <a class="btn btn-primary" href="{{ path('edit_image' , {'id' : figure.firstImageId}) }}">
+                            <i class="far fa-edit"></i>
+                        </a>
                         {%  if figure.countImages() != 1  %}
                             {{ include('logged/image/deleteFirstImageModal.html.twig') }}
                         {% endif %}
@@ -34,10 +36,12 @@
             {% for image in  form.vars.data.images %}
                 {% if not loop.first %}
                     <div class="card border-dark mb-4">
-                        <img class="card_image" src="{{ image.getImagePath() }}"/>
+                        <img class="card_image" src="{{ image.getImagePath() }}" alt="image"/>
                         <div class="card-footer">
                             <div class="push-right">
-                                <a class="btn btn-primary" href="{{ path('edit_image' , {'id' : image.id}) }}"><i class="far fa-edit"></i></a>
+                                <a class="btn btn-primary" href="{{ path('edit_image' , {'id' : image.id}) }}">
+                                    <i class="far fa-edit"></i>
+                                </a>
                                 {{ include('logged/image/deleteImageModal.html.twig') }}
                             </div>
                             </div>

@@ -66,9 +66,9 @@ $(document).ready(function() {
     $(document).on('click', '.delete-image', function(e) {
         e.preventDefault();
         // on récupère le nom du fichier qui est également l'id de l'input
-        let imageName = $(e.currentTarget).parent().find('.custom-file-label').text();
+        //let imageName = $(e.currentTarget).parent().find('.custom-file-label').text();
         // on delete l'image si une est bien uploadée
-        if(imageName) document.getElementById(imageName).remove();
+        //if(imageName) document.getElementById(imageName).remove();
         // on delete l'input
         $(e.target).closest('.image').remove();
     });
@@ -86,14 +86,12 @@ $(document).ready(function() {
         $(inputFile).parent()
             .find('.custom-file-label')
             .html(inputFile.files[0].name);
-        console.log('image');
-        // on récupère la div qui contiendra les images en thumbnail
-        let preview = document.querySelector('#preview');
 
+        // on récupère la div qui contiendra les images en thumbnail
+        /*let preview = document.querySelector('#preview');
         // on récupère le ficher et on initiale un nouveau FileReader
         const file = this.files[0];
         let reader = new FileReader();
-
         // Evènement permettant d'afficher dans la div preview l'image uploadé
         reader.addEventListener("load", function () {
             let image = new Image();
@@ -105,9 +103,12 @@ $(document).ready(function() {
             preview.appendChild( image );
         }, false);
 
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file);*/
 
     });
 
+    $(document).on('click', '.images input[type=file]', function (element) {
+
+    })
 });
 

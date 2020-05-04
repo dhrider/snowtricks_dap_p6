@@ -1,10 +1,11 @@
 <div class="card border-dark mb-4">
-    <img class="card_image" src="{{ asset('uploads/images/'~trick.images.first.name) }}" alt="Card image cap">
+    <img class="card_image" src="{{ asset('uploads/images/'~figure.images.first.name) }}" alt="Card image cap">
     <div class="card-footer">
-        <div>{{ trick.name }}</div>
+        <div>{{ figure.name }}</div>
         <div class="push-right">
-            <a class="btn btn-primary" href="{{ path('edit_figure', {'id' : trick.id}) }}"><i class="far fa-edit"></i></a>
-            <a class="btn btn-danger" href="{{ path('delete_figure', {'id' : trick.id}) }}"><i class="far fa-trash-alt"></i></a>
+            <a class="btn btn-primary" href="{{ path('figure', {'id': figure.id}) }}"><i class="far fa-eye"></i></a>
+            <a class="btn btn-primary" href="{{ path('edit_figure', {'id' : figure.id}) }}"><i class="far fa-edit"></i></a>
+            {{ include('logged/deleteFigureModal.html.twig') }}
         </div>
 
     </div>

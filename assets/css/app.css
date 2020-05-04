@@ -160,3 +160,12 @@ html, body {
     right: 225px;
     top: 95px;
 }
+
+.details {
+    display: flex;
+    margin: 15px;
+}
+
+.details h2 {
+    margin-left: 20px;
+}

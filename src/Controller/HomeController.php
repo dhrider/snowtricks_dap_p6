@@ -18,10 +18,10 @@ class HomeController extends AbstractController
      */
     public function home(FigureRepository $figureRepository)
     {
-        $trickList = $figureRepository->findAll();
+        $figureList = $figureRepository->findAll();
 
         return $this->render('home.html.twig', [
-            'tricks' => $trickList
+            'figures' => $figureList
         ]);
     }
 }

@@ -11,9 +11,11 @@
         {{ form_row(form.name, {'value': ''}) }}
         {{ form_row(form.description, {'value': ''}) }}
         {{ form_row(form.figuresGroup, {'value': ''}) }}
+
+
         <div>
             <button id="add-image" class="btn btn-primary">
-                <i class="fas fa-file-upload">  Upload new image</i>
+                <i class="fas fa-file-upload">  Add new image</i>
             </button>
             <button id="add-link" class="btn btn-primary pull-right">
                 <i class="fab fa-youtube">  Add new video link</i>
@@ -22,14 +24,20 @@
         <div class="row">
             <div class="images col-md-6"
                  data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
-                 data-index="0">
-                <div id="preview"></div>
+                 data-index="0"
+            >
+                {{ form_row(form.images) }}
+                <!--<div id="preview"></div>-->
             </div>
+
             <div class="videoLinks col-md-6"
                  data-prototype="{{ form_widget(form.videoLinks.vars.prototype)|e }}"
-                 data-index="0">
+                 data-index="0">{{ form_row(form.videoLinks) }}
             </div>
         </div>
+
+        {{ form_errors(form) }}
+        {{ form_row(form.submit) }}
         {{ form_end(form) }}
     </div>
 {% endblock %}
