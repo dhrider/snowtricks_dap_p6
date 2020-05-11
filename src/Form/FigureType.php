@@ -57,7 +57,7 @@ class FigureType extends AbstractType
             ])
         ;
         if($builder->getData()->getId() === null) {
-            $builder->add('videoLinks', CollectionType::class, [
+            $builder->add('links', CollectionType::class, [
                 'label' => false,
                 'allow_add' => true,
                 'prototype' => true,

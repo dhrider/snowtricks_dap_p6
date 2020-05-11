@@ -40,6 +40,8 @@ class FigureController extends AbstractController
 
         $success = false;
 
+        //dd($form);
+
         if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
             $success = true;
             $session = $this->container->get('session');

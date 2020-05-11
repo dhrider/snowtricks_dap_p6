@@ -87,6 +87,7 @@ $(document).ready(function() {
             .find('.custom-file-label')
             .html(inputFile.files[0].name);
 
+        // TO CORRECT LATER
         // on récupère la div qui contiendra les images en thumbnail
         /*let preview = document.querySelector('#preview');
         // on récupère le ficher et on initiale un nouveau FileReader
@@ -106,9 +107,5 @@ $(document).ready(function() {
         reader.readAsDataURL(file);*/
 
     });
-
-    $(document).on('click', '.images input[type=file]', function (element) {
-
-    })
 });
 

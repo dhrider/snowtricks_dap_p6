@@ -2,12 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Array_;
-use PhpParser\Node\Scalar\String_;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -35,12 +32,6 @@ class Figure
     private $description;
 
     /**
-     * @ORM\Column(type="json")
-     *
-     */
-    private $videoLinks;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $dateCreation;
@@ -61,13 +52,18 @@ class Figure
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Link", mappedBy="figure", cascade={"all"}, fetch="EAGER", orphanRemoval=true)
+     */
+    private $links;
+
 
     public function __construct()
     {
         $this->dateCreation = new \DateTimeImmutable();
         $this->dateLastModification = new \DateTime();
         $this->images = new ArrayCollection();
-        $this->videoLinks = array();
+        $this->links = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,28 +119,41 @@ class Figure
         return $this;
     }
 
-    public function getVideoLinks() : array
+    /**
+     * @return Collection|Link[]
+     */
+    public function getLinks() : Collection
     {
-        return $this->videoLinks;
+        return $this->links;
     }
 
-    public function setVideoLinks(array $videoLinks): void
+    /**
+     * @param Collection $link
+     */
+    public function setLinks(Collection $link): void
     {
-        $this->videoLinks = $videoLinks;
+        $this->$link = $link;
     }
 
-    public function addVideoLink(string $videoLink) : self
+    public function addLink(Link $link) : self
     {
-        $this->videoLinks[] = $videoLink;
+        if (!$this->links->contains($link)) {
+            $this->links[] = $link;
+            $link->setFigure($this);
+        }
 
         return $this;
     }
 
-    public function removeVideoLink(string $videoLink) : self
+    public function removeLink(Link $link) : self
     {
-        unset($this->videoLinks[$videoLink]);
-
-        $this->videoLinks = array_values($this->videoLinks);
+        if ($this->links->contains($link)) {
+            $this->links->removeElement($link);
+            // set the owning side to null (unless already changed)
+            if ($link->getFigure() === $this) {
+                $link->setFigure(null);
+            }
+        }
 
         return $this;
     }
