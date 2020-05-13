@@ -27,12 +27,14 @@
                  data-index="0"
             >
                 {{ form_row(form.images) }}
+                <!--TODO LATER-->
                 <!--<div id="preview"></div>-->
             </div>
 
             <div class="videoLinks col-md-6"
                  data-prototype="{{ form_widget(form.links.vars.prototype)|e }}"
-                 data-index="0">{{ form_row(form.links) }}
+                 data-index="0">
+                {{ form_row(form.links) }}
             </div>
         </div>
 

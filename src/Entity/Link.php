@@ -28,15 +28,16 @@ class Link
     private $figure;
 
 
-    public function getFigure() : ?Figure
+    public function getFigure(): ?Figure
     {
         return $this->figure;
     }
 
-
     public function setFigure(?Figure $figure): self
     {
         $this->figure = $figure;
+
+        return $this;
     }
 
 

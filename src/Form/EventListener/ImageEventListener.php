@@ -3,7 +3,7 @@
 
 namespace App\Form\EventListener;
 
-
+use App\Entity\Link;
 use App\Entity\Figure;
 use App\Entity\Image;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -39,10 +39,10 @@ class ImageEventListener implements EventSubscriberInterface
 
         if (isset($files['post'])) {
             $images = $files['post']['images'];
-            if(isset($this->request->request->all()['post']['videoLinks']))
-                $links = $this->request->request->all()['post']['videoLinks'];
+            if(isset($this->request->request->all()['post']['links']))
+                $links = $this->request->request->all()['post']['links'];
         }
-
+        //dd($links);
         if(isset($files['image'])) {
             $images = $files['image'];
         }
@@ -73,7 +73,9 @@ class ImageEventListener implements EventSubscriberInterface
         }
 
         foreach ($links as $link) {
-            $formEvent->getData()->addVideoLink($link);
+            $newLink = new Link();
+            $formEvent->getData()->addLink($newLink);
+            $newLink->setUrl($link);
         }
     }
 }

@@ -24,11 +24,11 @@
         <div class="media">
             {% for link in form.vars.data.links %}
                 <div class="card border-dark mb-4">
-                    <iframe class="card_image" src="{{ link | replace({'watch?v=' : 'embed/'}) }}"></iframe>
+                    <iframe class="card_image" src="{{ link.url | replace({'watch?v=' : 'embed/'}) }}"></iframe>
                     <div class="card-footer">
                         <div class="push-right">
-                            <a class="btn btn-primary" href="{{ path('edit_link') }}"><i class="far fa-edit"></i></a>
-                            <a class="btn btn-danger" href=""><i class="far fa-trash-alt"></i></a>
+                            <a class="btn btn-primary" href="{{ path('edit_link' , {'id' : link.id}) }}"><i class="far fa-edit"></i></a>
+                            {{ include('logged/link/deleteLinkModal.html.twig') }}
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,6 @@
                                     <i class="far fa-edit"></i>
                                 </a>
                                 {{ include('logged/image/deleteImageModal.html.twig') }}
-                            </div>
                             </div>
                         </div>
                     </div>

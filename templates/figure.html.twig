@@ -7,7 +7,7 @@
                 <img class="card_image" src="{{ figure.firstImage }}" alt="image"/>
                 <div class="card-footer">
                     <div class="push-right">
-                        <a class="btn btn-primary" href="{{ path('edit_figure' , {'id' : figure.firstImageId}) }}">
+                        <a class="btn btn-primary" href="{{ path('edit_figure' , {'id' : figure.id}) }}">
                             <i class="far fa-edit"></i>
                         </a>
                         {{ include('logged/deleteFigureModal.html.twig') }}
@@ -18,7 +18,7 @@
         <div class="media">
             {% for link in figure.links %}
                 <div class="card border-dark mb-4">
-                    <iframe class="card_image" src="{{ link | replace({'watch?v=' : 'embed/'}) }}"></iframe>
+                    <iframe class="card_image" src="{{ link.url | replace({'watch?v=' : 'embed/'}) }}"></iframe>
                 </div>
             {% endfor %}
             {% for image in figure.images %}

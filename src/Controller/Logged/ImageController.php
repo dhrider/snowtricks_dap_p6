@@ -58,12 +58,11 @@ class ImageController extends AbstractController
     /**
      * @Route(path="/logged/image/delete/{id}", name="delete_image")
      * @param Image $image
-     * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param ImageRepository $imageRepository
      * @return RedirectResponse
      */
-    public function deleteImage(Image $image, Request $request, EntityManagerInterface $entityManager, ImageRepository $imageRepository)
+    public function deleteImage(Image $image, EntityManagerInterface $entityManager, ImageRepository $imageRepository)
     {
         unlink($this->imageDirectory . $image->getName());
         $entityManager->remove($imageRepository->find($image->getId()));
