@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block pageContent %}
+    <div class="homePhoto" id="home" style="background-image: url({{ asset('build/images/snowboard.jpg') }});">
+        <div class="scroll">
+            <a href="" class="pull-right btn btn-default scroll" id="scroll" type="button" title="Page Bottom">
+                <i class="fa fa-2x fa-chevron-down" id="arrow"></i>
+            </a>
+        </div>
+    </div>
+    <div class="container tricks" id="tricks">
+        <div id="ancreTricks"></div>
+        <div class="row">
+            {% for figure in figures %}
+                <div class="col-md-6">
+                    {{ include('_figure.html.twig') }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

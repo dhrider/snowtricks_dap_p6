@@ -1,0 +1,12 @@
+<div class="card border-dark mb-4">
+    <img class="card_image" src="{{ asset('uploads/images/'~figure.images.first.name) }}" alt="Card image cap">
+    <div class="card-footer">
+        <div>{{ figure.name }}</div>
+        <div class="push-right">
+            <a class="btn btn-primary" href="{{ path('figure', {'id': figure.id}) }}"><i class="far fa-eye"></i></a>
+            <a class="btn btn-primary" href="{{ path('edit_figure', {'id' : figure.id}) }}"><i class="far fa-edit"></i></a>
+            {{ include('logged/deleteFigureModal.html.twig') }}
+        </div>
+
+    </div>
+</div>

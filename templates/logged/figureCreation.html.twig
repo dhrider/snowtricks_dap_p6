@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+
+{% block pageContent %}
+    <div class="container pageContent">
+        <h1 class="pageTitle">TRICK</h1>
+        {% if app.request.get('success') %}
+            {% include 'messageFlash.html.twig' with {'buttonId': 'trickCreated'} %}
+        {% endif %}
+        {{ form_start(form) }}
+        {{ form_row(form.name, {'value': ''}) }}
+        {{ form_row(form.description, {'value': ''}) }}
+        {{ form_row(form.figuresGroup, {'value': ''}) }}
+
+
+        <div>
+            <button id="add-image" class="btn btn-primary">
+                <i class="fas fa-file-upload">  Add new image</i>
+            </button>
+            <button id="add-link" class="btn btn-primary pull-right">
+                <i class="fab fa-youtube">  Add new video link</i>
+            </button>
+        </div>
+        <div class="row">
+            <div class="images col-md-6"
+                 data-prototype="{{ form_widget(form.images.vars.prototype)|e }}"
+                 data-index="0"
+            >
+                {{ form_row(form.images) }}
+                <!--TODO LATER-->
+                <!--<div id="preview"></div>-->
+            </div>
+
+            <div class="videoLinks col-md-6"
+                 data-prototype="{{ form_widget(form.links.vars.prototype)|e }}"
+                 data-index="0">
+                {{ form_row(form.links) }}
+            </div>
+        </div>
+
+        {{ form_errors(form) }}
+        {{ form_row(form.submit) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block pageContent %}
+    <div class="container pageContent">
+        <div class="top_image">
+            <div id="card_top" class="card border-dark mb-4">
+                <img class="card_image" src="{{ figure.firstImage }}" alt="image"/>
+                <div class="card-footer">
+                    <div class="push-right">
+                        <a class="btn btn-primary" href="{{ path('edit_figure' , {'id' : figure.id}) }}">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        {{ include('logged/deleteFigureModal.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="media">
+            {% for link in figure.links %}
+                <div class="card border-dark mb-4">
+                    <iframe class="card_image" src="{{ link.url | replace({'watch?v=' : 'embed/'}) }}"></iframe>
+                </div>
+            {% endfor %}
+            {% for image in figure.images %}
+                {% if not loop.first %}
+                    <div class="card border-dark mb-4">
+                        <img class="card_image" src="{{ image.getImagePath() }}" alt="image"/>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="description">
+            <p>{{ figure.description }}</p>
+        </div>
+        <div class="details">
+            <h2>Group : </h2>
+            <h2>Creation date : {{ figure.dateCreation | date('d-m-Y')}}</h2>
+            <h2>Modification date : {{ figure.dateLastModification | date('d-m-Y')}}</h2>
+        </div>
+        <hr/>
+    </div>
+{% endblock %}

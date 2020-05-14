@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block pageContent %}
+    <div class="container pageContent">
+        {{ form_start(form) }}
+        <div class="top_image">
+            <div id="card_top" class="card border-dark mb-4">
+                <img class="card_image" src="{{ figure.firstImage }}" alt="image"/>
+                <div class="card-footer">
+                    <div class="push-right">
+                        <a class="btn btn-primary" href="{{ path('edit_image' , {'id' : figure.firstImageId}) }}">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        {%  if figure.countImages() != 1  %}
+                            {{ include('logged/image/deleteFirstImageModal.html.twig') }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if app.request.get('success') %}
+            {% include 'messageFlash.html.twig' with {'buttonId': 'imageUpdated'} %}
+        {% endif %}
+        <div class="media">
+            {% for link in form.vars.data.links %}
+                <div class="card border-dark mb-4">
+                    <iframe class="card_image" src="{{ link.url | replace({'watch?v=' : 'embed/'}) }}"></iframe>
+                    <div class="card-footer">
+                        <div class="push-right">
+                            <a class="btn btn-primary" href="{{ path('edit_link' , {'id' : link.id}) }}"><i class="far fa-edit"></i></a>
+                            {{ include('logged/link/deleteLinkModal.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% for image in  form.vars.data.images %}
+                {% if not loop.first %}
+                    <div class="card border-dark mb-4">
+                        <img class="card_image" src="{{ image.getImagePath() }}" alt="image"/>
+                        <div class="card-footer">
+                            <div class="push-right">
+                                <a class="btn btn-primary" href="{{ path('edit_image' , {'id' : image.id}) }}">
+                                    <i class="far fa-edit"></i>
+                                </a>
+                                {{ include('logged/image/deleteImageModal.html.twig') }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.figuresGroup) }}
+        {{ form_row(form.submit) }}
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
