@@ -42,7 +42,7 @@ class ImageEventListener implements EventSubscriberInterface
             if(isset($this->request->request->all()['post']['links']))
                 $links = $this->request->request->all()['post']['links'];
         }
-        //dd($links);
+
         if(isset($files['image'])) {
             $images = $files['image'];
         }
