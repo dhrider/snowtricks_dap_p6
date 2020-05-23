@@ -16,21 +16,22 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class FigureController extends AbstractController
 {
-    private $imageDirectory;
+    private $filesTargetDirectory;
+    private $entityManager;
 
-    public function __construct(string $imageDirectory)
+    public function __construct(string $filesTargetDirectory, EntityManagerInterface $entityManager)
     {
-        $this->imageDirectory = $imageDirectory;
+        $this->filesTargetDirectory = $filesTargetDirectory;
+        $this->entityManager = $entityManager;
     }
 
     /**
      * @Route("/logged/create", name="create_figure")
      * @param Request $request
-     * @param EntityManagerInterface $em
      * @param ValidatorInterface $validator
      * @return Response
      */
-    public function createFigure(Request $request, EntityManagerInterface $em, ValidatorInterface $validator)
+    public function createFigure(Request $request, ValidatorInterface $validator)
     {
         $figure = new Figure();
         //$figure->addImage(New Image()); // on initialise l'input image pour forcer son affichage dans le form
@@ -47,8 +48,8 @@ class FigureController extends AbstractController
             $session = $this->container->get('session');
             $session->getFlashBag()->set('success', 'Your Trick has been successfully created !');
 
-            $em->persist($figure);
-            $em->flush();
+            $this->entityManager->persist($figure);
+            $this->entityManager->flush();
             return $this->redirectToRoute('create_figure', [
                 'success' => $success
             ]);
@@ -63,19 +64,18 @@ class FigureController extends AbstractController
     /**
      * @Route("/logged/edit/{id}", name="edit_figure")
      * @param Request $request
-     * @param EntityManagerInterface $em
      * @param Figure $figure
      * @return Response
      * @throws Exception
      */
-    public function editFigure(Request $request, EntityManagerInterface $em, Figure $figure) {
+    public function editFigure(Request $request, Figure $figure) {
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
         if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
             $figure->setDateLastModification(new \DateTime());
-            $em->persist($figure);
-            $em->flush();
+            $this->entityManager->persist($figure);
+            $this->entityManager->flush();
             return $this->redirectToRoute('home');
         }
 
@@ -87,20 +87,19 @@ class FigureController extends AbstractController
 
     /**
      * @Route("/logged/delete/{id})", name="delete_figure")
-     * @param EntityManagerInterface $em
      * @param Figure $figure
      * @return RedirectResponse
      */
-    public function deleteFigure(EntityManagerInterface  $em, Figure $figure) {
+    public function deleteFigure(Figure $figure) {
         // on récupère les images liées à la figure
         $images = $figure->getImages();
         //on les efface du dossier upload
         foreach ($images as $image) {
-            unlink($this->imageDirectory . $image->getName());
+            unlink($this->filesTargetDirectory.'images/'.$image->getName());
         }
         // on supprime la figure de la BDD
-        $em->remove($figure);
-        $em->flush();
+        $this->entityManager->remove($figure);
+        $this->entityManager->flush();
         //on redirige vers la page 'home'
         return $this->redirectToRoute('home');
     }

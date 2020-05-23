@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -39,9 +40,14 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\UserPhoto", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\Column(type="string", length=255)
      */
-    private $userPhoto;
+    private $photo;
+
+    /**
+     * @var UploadedFile
+     */
+    public $file;
 
     public function getId(): ?int
     {
@@ -128,21 +134,25 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getUserPhoto(): ?UserPhoto
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
     {
-        return $this->userPhoto;
-    }
-
-    public function setUserPhoto(?UserPhoto $userPhoto): self
-    {
-        $this->userPhoto = $userPhoto;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newUser = null === $userPhoto ? null : $this;
-        if ($userPhoto->getUser() !== $newUser) {
-            $userPhoto->setUser($newUser);
+        if(null === $this->photo) {
+            // mettre le path vers la photo défaut
+            return '/build/images/default_avatar.jpg';
         }
-
-        return $this;
+        return $this->photo;
     }
+
+    /**
+     * @param mixed $photo
+     */
+    public function setPhoto($photo): void
+    {
+        $this->photo = $photo;
+    }
+
+
 }

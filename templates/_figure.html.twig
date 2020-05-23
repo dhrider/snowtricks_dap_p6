@@ -4,8 +4,10 @@
         <div>{{ figure.name }}</div>
         <div class="push-right">
             <a class="btn btn-primary" href="{{ path('figure', {'id': figure.id}) }}"><i class="far fa-eye"></i></a>
-            <a class="btn btn-primary" href="{{ path('edit_figure', {'id' : figure.id}) }}"><i class="far fa-edit"></i></a>
-            {{ include('logged/deleteFigureModal.html.twig') }}
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-primary" href="{{ path('edit_figure', {'id' : figure.id}) }}"><i class="far fa-edit"></i></a>
+                {{ include('logged/deleteFigureModal.html.twig') }}
+            {% endif %}
         </div>
 
     </div>
