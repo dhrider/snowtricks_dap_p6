@@ -17,14 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-    private $requestStack;
-    private $photoDirectory;
-
-    public function __construct(RequestStack $requestStack, string $photoDirectory)
-    {
-        $this->requestStack = $requestStack;
-        $this->photoDirectory = $photoDirectory;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -67,11 +59,10 @@ class UserType extends AbstractType
                     )
                 )
             ))
-            ->add('userPhoto', FileType::class, [
+            ->add('file', FileType::class, [
                 'label' => false,
-                'mapped' => false
-            ]);
-        $builder->addEventSubscriber(new UserPhotoEventListener($this->requestStack, $this->photoDirectory))
+                'required' => false
+            ])
             ->add('submit', SubmitType::class, array(
                 'attr' => array(
                     'class' => 'btn-primary pull-left'

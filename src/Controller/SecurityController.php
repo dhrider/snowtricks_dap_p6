@@ -4,9 +4,13 @@
 namespace App\Controller;
 
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -16,7 +20,7 @@ class SecurityController extends AbstractController
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
-    public function loginAction(AuthenticationUtils $authenticationUtils)
+    public function login(AuthenticationUtils $authenticationUtils)
     {
         $success = false;
 
@@ -30,7 +34,7 @@ class SecurityController extends AbstractController
     /**
      * @Route(path="login/check", name="login_check")
      */
-    public function loginCheckAction()
+    public function loginCheck()
     {
 
     }
@@ -38,8 +42,9 @@ class SecurityController extends AbstractController
     /**
      * @Route(path="logout", name="logout")
      */
-    public function logoutAction()
+    public function logout()
     {
+
 
     }
 }

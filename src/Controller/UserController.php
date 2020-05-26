@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\File\FileUploader;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Swift_Mailer;
@@ -17,14 +18,23 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class UserController extends AbstractController
 {
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+
     /**
      * @Route(path="register", name="register")
      * @param Request $request
-     * @param EntityManagerInterface $entityManager
      * @param EncoderFactoryInterface $encoder
+     * @param FileUploader $fileUploader
      * @return RedirectResponse|Response
      */
-    public function register(Request $request, EntityManagerInterface $entityManager, EncoderFactoryInterface $encoder)
+    public function register(Request $request, EncoderFactoryInterface $encoder, FileUploader $fileUploader)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -39,10 +49,12 @@ class UserController extends AbstractController
             $user->setPassword($hash);
             $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
 
-            // TODO Add photo or default avatar
+            $newfilename = $fileUploader->upload($user->file, 'photos');
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $user->setPhoto($newfilename);
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
             $success = true;
             $session
                 ->getFlashBag()
@@ -61,10 +73,9 @@ class UserController extends AbstractController
     /**
      * @Route(path="resetpassword", name="reset_password")
      * @param Request $request
-     * @param EntityManagerInterface $entityManager
      * @param Swift_Mailer $mailer
      */
-    public function resetPassword(Request $request, EntityManagerInterface $entityManager, Swift_Mailer $mailer)
+    public function resetPassword(Request $request, Swift_Mailer $mailer)
     {
 
     }
@@ -73,9 +84,8 @@ class UserController extends AbstractController
      * @Route(path="newpassword/{token}", name="new_password")
      * @param User $user
      * @param Request $request
-     * @param EntityManagerInterface $entityManager
      */
-    public function newPassword(User $user, Request $request, EntityManagerInterface $entityManager)
+    public function newPassword(User $user, Request $request)
     {
 
     }

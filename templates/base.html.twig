@@ -29,17 +29,23 @@
                                 <li class="nav-item active">
                                     <a class="nav-link" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
                                 </li>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('create_figure') }}">Tricks</a>
+                                    </li>
+                                {% endif %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('create_figure') }}">Tricks</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path("login") }}">Login</a>
+                                    {% if is_granted('ROLE_USER') %}
+                                        <a class="nav-link" href="{{ path("logout") }}">Logout</a>
+                                    {% else %}
+                                        <a class="nav-link" href="{{ path("login") }}">Login</a>
+                                    {% endif %}
                                 </li>
                             </ul>
 
-                            {% if is_granted('ROLE_ADMIN') %}
 
-                            {% endif %}
+
+
                         </div>
                     </div>
             </nav>
