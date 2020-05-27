@@ -57,6 +57,11 @@ class Figure
      */
     private $links;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure",  cascade={"all"}, fetch="EAGER", orphanRemoval=true)
+     */
+    private $comments;
+
 
     public function __construct()
     {
@@ -64,6 +69,7 @@ class Figure
         $this->dateLastModification = new \DateTime();
         $this->images = new ArrayCollection();
         $this->links = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,5 +229,36 @@ class Figure
     public function countImages() : int
     {
         return $this->getImages()->count();
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setFigure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getFigure() === $this) {
+                $comment->setFigure(null);
+            }
+        }
+
+        return $this;
     }
 }

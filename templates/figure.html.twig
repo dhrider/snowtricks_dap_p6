@@ -31,14 +31,30 @@
                 {% endif %}
             {% endfor %}
         </div>
+        <hr/>
         <div class="description">
             <p>{{ figure.description }}</p>
         </div>
+        <hr/>
         <div class="details">
-            <h2>Group : </h2>
-            <h2>Creation date : {{ figure.dateCreation | date('d-m-Y')}}</h2>
-            <h2>Modification date : {{ figure.dateLastModification | date('d-m-Y')}}</h2>
+            <h6>Group : </h6>
+            <h6>Creation date : {{ figure.dateCreation | date('d-m-Y')}}</h6>
+            <h6>Modification date : {{ figure.dateLastModification | date('d-m-Y')}}</h6>
         </div>
         <hr/>
+        {% if is_granted('ROLE_ADMIN') %}
+            <p>Enter comment :</p>
+            {{ form(form) }}
+        {% endif %}
+        <hr/>
+        <div class="comments" id="comments">
+            <div class="previousComments">
+                <h3 id="commentaires"><u>Comments</u></h3>
+                {% if app.request.get('success') %}
+                    {% include 'messageFlash.html.twig' with {'buttonId': 'commentSend'} %}
+                {% endif %}
+                {% include('Comment/comment.html.twig') %}
+            </div>
+        </div>
     </div>
 {% endblock %}
