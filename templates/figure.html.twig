@@ -6,6 +6,7 @@
             <div id="card_top" class="card border-dark mb-4">
                 <img class="card_image" src="{{ figure.firstImage }}" alt="image"/>
                 <div class="card-footer">
+                    <h2>{{ figure.name }}</h2>
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="push-right">
                             <a class="btn btn-primary" href="{{ path('edit_figure' , {'id' : figure.id}) }}">
@@ -32,24 +33,24 @@
             {% endfor %}
         </div>
         <hr/>
-        <div class="description">
+        <div id="description">
             <p>{{ figure.description }}</p>
         </div>
         <hr/>
         <div class="details">
-            <h6>Group : </h6>
+            <h6>Group : {{ figure.figuresGroup.name }}</h6>
             <h6>Creation date : {{ figure.dateCreation | date('d-m-Y')}}</h6>
             <h6>Modification date : {{ figure.dateLastModification | date('d-m-Y')}}</h6>
         </div>
         <hr/>
         {% if is_granted('ROLE_ADMIN') %}
-            <p>Enter comment :</p>
+            <h4><u>Leave a comment :</u></h4>
             {{ form(form) }}
         {% endif %}
         <hr/>
         <div class="comments" id="comments">
             <div class="previousComments">
-                <h3 id="commentaires"><u>Comments</u></h3>
+                <h4 id="commentaires"><u>Comments</u></h4>
                 {% if app.request.get('success') %}
                     {% include 'messageFlash.html.twig' with {'buttonId': 'commentSend'} %}
                 {% endif %}

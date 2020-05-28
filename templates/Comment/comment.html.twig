@@ -2,7 +2,7 @@
     <div class=" comment {{ cycle(['odd', 'even'], loop.index0) }} comment" id="comment-{{ comment.id }}">
         <header class="commentHeader">
             <p>
-                <span><span class="dateModif">{{ comment.author }}</span> a commenté le </span>
+                <span><span class="dateModif"></span> a commenté le </span>
                 <span><span class="dateModif">{{ comment.dateCreation | date('d-m-Y') }}</span> à </span>
                 <span class="dateModif">{{ comment.dateCreation | date('H:i:s')}}</span>
             </p>

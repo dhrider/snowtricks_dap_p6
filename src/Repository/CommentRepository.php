@@ -29,6 +29,6 @@ class CommentRepository extends ServiceEntityRepository
             ->orderBy('c.dateCreation', 'DESC')
         ;
 
-        return $qb;
+        return $qb->getQuery()->getResult();
     }
 }

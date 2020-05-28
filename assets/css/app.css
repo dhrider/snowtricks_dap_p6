@@ -111,19 +111,22 @@ html, body {
     height: 350px;
 }
 
-.button {
-    position: absolute;
-    right: 225px;
-    top: 95px;
+#description {
+    text-align: justify;
 }
 
 .details {
     display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 15px;
 }
 
-.details h2 {
+.details h6 {
     margin-left: 20px;
+    border: solid black;
+    padding: 5px;
+    background-color: white;
 }
 
 /* Login form */
