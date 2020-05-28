@@ -21,7 +21,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\Unique(message="This username already exist ! Choose another one.")
      */
     private $username;
 
@@ -37,7 +36,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
@@ -50,6 +49,11 @@ class User implements UserInterface
      * @var UploadedFile
      */
     public $file;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
 
     public function getId(): ?int
     {
@@ -154,6 +158,18 @@ class User implements UserInterface
     public function setPhoto($photo): void
     {
         $this->photo = $photo;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
     }
 
 

@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\File\FileUploader;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,9 +61,9 @@ class UserController extends AbstractController
                 ->getFlashBag()
                 ->set('success', 'You\'ve been successfully registred.')
             ;
-            return $this->redirectToRoute('login', array(
+            return $this->redirectToRoute('login', [
                 'success' => $success
-            ));
+            ]);
         }
 
         return $this->render('User/registerUser.html.twig', [
@@ -74,10 +75,38 @@ class UserController extends AbstractController
      * @Route(path="resetpassword", name="reset_password")
      * @param Request $request
      * @param Swift_Mailer $mailer
+     * @param UserRepository $userRepository
+     * @return Response
      */
-    public function resetPassword(Request $request, Swift_Mailer $mailer)
+    public function resetPassword(Request $request, Swift_Mailer $mailer, UserRepository $userRepository)
     {
+        if($request->isMethod('POST')) {
+            $user = $userRepository->findByEmail($request->request->get('email'));
+            $session = $this->container->get('session');
 
+            if($user) {
+                $user->setToken(hash('sha3-512', uniqid()));
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+                $email = new \Swift_Message();
+                $email
+                    ->setSubject('Philippe Bordmann Blog Message')
+                    ->setFrom('p_bordmann@orange.fr')
+                    ->setTo($user->getEmail())
+                    ->setContentType('text/html')
+                    ->setBody($this->render('User/resetPasswordEmail.html.twig', [
+                        'date' => new \DateTime(),
+                        'token' => $user->getToken()
+                    ]))
+                ;
+                $mailer->send($email);
+                $session->getFlashBag()->set('success', 'A link for resetting your password has been send to your email.');
+            } else {
+                $session->getFlashBag()->set('warning', 'This email doesn\'t exist.');
+            }
+        }
+
+        return $this->render('User/resetPassword.html.twig');
     }
 
     /**
