@@ -20,11 +20,6 @@ class Comment
 
     /**
      * @ORM\Column(type="string", length=255)
-     */
-    private $author;
-
-    /**
-     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
     private $content;
@@ -45,6 +40,12 @@ class Comment
      */
     private $figure;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->dateCreation = new \DateTime();
@@ -55,18 +56,6 @@ class Comment
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(string $author): self
-    {
-        $this->author = $author;
-
-        return $this;
     }
 
     public function getContent(): ?string
@@ -113,6 +102,18 @@ class Comment
     public function setFigure(?Figure $figure): self
     {
         $this->figure = $figure;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

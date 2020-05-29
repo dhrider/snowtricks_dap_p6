@@ -161,4 +161,21 @@ html, body {
     margin: 100px auto;
 }
 
+/* Avatar + Comment */
+#commentDetail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+#avatarImage  {
+    width: 60px;
+    height: auto;
+    margin-right: 15px;
+}
+
+#commentContent p {
+    background: white;
+    width: 500px;
+    padding: 5px;
+}

@@ -10,6 +10,7 @@ use App\Repository\CommentRepository;
 use App\Repository\FigureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,9 +36,9 @@ class FigureController extends AbstractController
      * @param Figure $figure
      * @param EntityManagerInterface $entityManager
      * @param CommentRepository $commentRepository
-     * @return Response
+     * @return RedirectResponse|Response
      */
-    public function figure(Request $request, Figure $figure, EntityManagerInterface $entityManager, CommentRepository $commentRepository)
+    public function figure(Request $request, Figure $figure,EntityManagerInterface $entityManager, CommentRepository $commentRepository)
     {
         $comments = $commentRepository->findAllComments($figure->getId());
         $comment = new Comment();
@@ -46,8 +47,8 @@ class FigureController extends AbstractController
         $form->handleRequest($request);
 
         if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
-            $comment->setAuthor($this->security->getUser()->getUsername());
             $comment->setFigure($figure);
+            $comment->setUser($this->security->getUser());
 
             $entityManager->persist($comment);
             $entityManager->flush();

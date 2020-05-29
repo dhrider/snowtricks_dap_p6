@@ -50,9 +50,10 @@ class UserController extends AbstractController
             $user->setPassword($hash);
             $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
 
-            $newfilename = $fileUploader->upload($user->file, 'photos');
-
-            $user->setPhoto($newfilename);
+            if(null !== $user->file) {
+                $newfilename = $fileUploader->upload($user->file, 'photos');
+                $user->setPhoto($newfilename);
+            }
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();

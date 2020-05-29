@@ -41,18 +41,25 @@ class FigureController extends AbstractController
 
         $success = false;
 
-        //dd($form);
+        if($request->isMethod('POST') && $form->isSubmitted()) {
+            if($form->isValid()) {
+                $success = true;
+                $session = $this->container->get('session');
+                $session->getFlashBag()->set('success', 'Your Trick has been successfully created !');
 
-        if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
-            $success = true;
-            $session = $this->container->get('session');
-            $session->getFlashBag()->set('success', 'Your Trick has been successfully created !');
+                $this->entityManager->persist($figure);
+                $this->entityManager->flush();
 
-            $this->entityManager->persist($figure);
-            $this->entityManager->flush();
-            return $this->redirectToRoute('create_figure', [
-                'success' => $success
-            ]);
+                return $this->redirectToRoute('create_figure', [
+                    'success' => $success
+                ]);
+            } else {
+                foreach ($figure->getImages() as $image) {
+                    unlink($this->filesTargetDirectory.'images/'. $image->getName());
+                    $this->entityManager->remove($image);
+                }
+                $this->entityManager->flush();
+            }
         }
 
         return $this->render('logged/figureCreation.html.twig', array(
