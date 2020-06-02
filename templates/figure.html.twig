@@ -4,7 +4,11 @@
     <div class="container pageContent">
         <div class="top_image">
             <div id="card_top" class="card border-dark mb-4">
-                <img class="card_image" src="{{ figure.firstImage }}" alt="image"/>
+                {% if figure.countImages != 0 %}
+                    <img class="card_image" src="{{ figure.firstImage }}" alt="image"/>
+                {% else %}
+                    <img class="card_image" src="{{ asset('build/images/empty.jpg') }}" alt="image">
+                {% endif %}
                 <div class="card-footer">
                     <h2>{{ figure.name }}</h2>
                     {% if is_granted('ROLE_ADMIN') %}
@@ -46,16 +50,11 @@
         {% if is_granted('ROLE_ADMIN') %}
             <h4><u>Leave a comment :</u></h4>
             {{ form(form) }}
+            <hr/>
         {% endif %}
-        <hr/>
-        <div class="comments" id="comments">
-            <div class="previousComments">
-                <h4 id="commentaires"><u>Comments</u></h4>
-                {% if app.request.get('success') %}
-                    {% include 'messageFlash.html.twig' with {'buttonId': 'commentSend'} %}
-                {% endif %}
-                {% include('Comment/comment.html.twig') %}
-            </div>
+        <div id="comments">
+            <h4 id="commentaires"><u>Comments :</u></h4>
+            {% include('Comment/comment.html.twig') %}
         </div>
     </div>
 {% endblock %}
