@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Figure;
 use App\Entity\FiguresGroup;
+use App\File\FileUploader;
 use App\Form\EventListener\ImageEventListener;
 use App\Validator\Constrainsts\VideoLink;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -21,12 +22,14 @@ use Symfony\Component\Validator\Constraints\File;
 class FigureType extends AbstractType
 {
     private $requestStack;
-    private $imageDirectory;
+    private $filesTargetDirectory;
+    private $fileUploader;
 
-    public function __construct(RequestStack $requestStack, string $imageDirectory)
+    public function __construct(RequestStack $requestStack, string $filesTargetDirectory, FileUploader $fileUploader)
     {
         $this->requestStack = $requestStack;
-        $this->imageDirectory = $imageDirectory;
+        $this->filesTargetDirectory = $filesTargetDirectory;
+        $this->fileUploader = $fileUploader;
     }
 
     /**
@@ -96,7 +99,7 @@ class FigureType extends AbstractType
                 ]
             ]);
         }
-        $builder->addEventSubscriber(new ImageEventListener($this->requestStack, $this->imageDirectory))
+        $builder->addEventSubscriber(new ImageEventListener($this->requestStack, $this->filesTargetDirectory,$this->fileUploader))
         ->add('submit', SubmitType::class, [
             'attr' => array(
                 'class' => 'btn-primary pull-left'

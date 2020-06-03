@@ -6,12 +6,14 @@
             <div id="card_top" class="card border-dark mb-4">
                 <img class="card_image" src="{{ figure.firstImage }}" alt="image"/>
                 <div class="card-footer">
-                    <div class="push-right">
-                        <a class="btn btn-primary" href="{{ path('edit_figure' , {'id' : figure.id}) }}">
-                            <i class="far fa-edit"></i>
-                        </a>
-                        {{ include('logged/deleteFigureModal.html.twig') }}
-                    </div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="push-right">
+                            <a class="btn btn-primary" href="{{ path('edit_figure' , {'id' : figure.id}) }}">
+                                <i class="far fa-edit"></i>
+                            </a>
+                            {{ include('logged/deleteFigureModal.html.twig') }}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
