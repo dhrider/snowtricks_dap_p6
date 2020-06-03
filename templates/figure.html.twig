@@ -13,7 +13,7 @@
                     <h2>{{ figure.name }}</h2>
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="push-right">
-                            <a class="btn btn-primary" href="{{ path('edit_figure' , {'id' : figure.id}) }}">
+                            <a class="btn btn-primary" href="{{ path('edit_figure' , {'slug' : figure.slug}) }}">
                                 <i class="far fa-edit"></i>
                             </a>
                             {{ include('logged/deleteFigureModal.html.twig') }}

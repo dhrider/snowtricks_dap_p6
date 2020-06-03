@@ -7,9 +7,9 @@
     <div class="card-footer">
         <div>{{ figure.name }}</div>
         <div class="push-right">
-            <a class="btn btn-primary" href="{{ path('figure', {'id': figure.id}) }}"><i class="far fa-eye"></i></a>
+            <a class="btn btn-primary" href="{{ path('figure', {'slug': figure.slug}) }}"><i class="far fa-eye"></i></a>
             {% if is_granted('ROLE_ADMIN') %}
-                <a class="btn btn-primary" href="{{ path('edit_figure', {'id' : figure.id}) }}"><i class="far fa-edit"></i></a>
+                <a class="btn btn-primary" href="{{ path('edit_figure', {'slug' : figure.slug}) }}"><i class="far fa-edit"></i></a>
                 {{ include('logged/deleteFigureModal.html.twig') }}
             {% endif %}
         </div>

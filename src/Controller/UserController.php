@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\File\FileUploader;
+use App\Form\PasswordResetType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -114,9 +115,38 @@ class UserController extends AbstractController
      * @Route(path="newpassword/{token}", name="new_password")
      * @param User $user
      * @param Request $request
+     * @param EncoderFactoryInterface $encoder
      */
-    public function newPassword(User $user, Request $request)
+    public function newPassword(User $user, Request $request, EncoderFactoryInterface $encoder)
     {
-
+        $userExist = $this->entityManager
+            ->getRepository(User::class)
+            ->findOneBy(['token' => $user->getToken()])
+        ;
+        $form = $this->createForm(PasswordResetType::class, $user);
+        $form->handleRequest($request);
+        $session = $this->container->get('session');
+        if($form->isSubmitted() && $form->isValid()) {
+            $hash = $encoder
+                ->getEncoder($user)
+                ->encodePassword($form->getData()->getPassword(), $user->getSalt())
+            ;
+            $user->setPassword($hash);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            $success = true;
+            $session->getFlashBag()->set('success', 'Your new password is active!');
+            return $this->redirectToRoute('login', array(
+                'success' => $success
+            ));
+        }
+        if ($userExist) {
+            return $this->render('User/newPassword.html.twig', array(
+                'form' => $form->createView()
+            ));
+        } else {
+            $session->getFlashBag()->set('warning', 'The link for resetting your password is not valid.');
+            return $this->redirectToRoute('login');
+        }
     }
 }

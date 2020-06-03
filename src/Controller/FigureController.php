@@ -31,7 +31,7 @@ class FigureController extends AbstractController
     }
 
     /**
-     * @Route(path="figure/{id}", name="figure")
+     * @Route(path="figure/{slug}", name="figure")
      * @param Request $request
      * @param Figure $figure
      * @param EntityManagerInterface $entityManager
@@ -54,7 +54,7 @@ class FigureController extends AbstractController
             $entityManager->flush();
 
             return $this->redirect($this->generateUrl('figure',
-                    ['id' => $comment->getFigure()->getId(),
+                    ['slug' => $comment->getFigure()->getSlug(),
                     ]).'#comments');
         }
 

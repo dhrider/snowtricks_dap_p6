@@ -34,7 +34,6 @@ class FigureController extends AbstractController
     public function createFigure(Request $request, ValidatorInterface $validator)
     {
         $figure = new Figure();
-        //$figure->addImage(New Image()); // on initialise l'input image pour forcer son affichage dans le form
 
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
@@ -69,7 +68,7 @@ class FigureController extends AbstractController
     }
 
     /**
-     * @Route("/logged/edit/{id}", name="edit_figure")
+     * @Route("/logged/edit/{slug}", name="edit_figure")
      * @param Request $request
      * @param Figure $figure
      * @return Response
@@ -93,7 +92,7 @@ class FigureController extends AbstractController
     }
 
     /**
-     * @Route("/logged/delete/{id})", name="delete_figure")
+     * @Route("/logged/delete/{slug})", name="delete_figure")
      * @param Figure $figure
      * @return RedirectResponse
      */
