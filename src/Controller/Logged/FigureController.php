@@ -34,25 +34,31 @@ class FigureController extends AbstractController
     public function createFigure(Request $request, ValidatorInterface $validator)
     {
         $figure = new Figure();
-        //$figure->addImage(New Image()); // on initialise l'input image pour forcer son affichage dans le form
 
         $form = $this->createForm(FigureType::class, $figure);
         $form->handleRequest($request);
 
         $success = false;
 
-        //dd($form);
+        if($request->isMethod('POST') && $form->isSubmitted()) {
+            if($form->isValid()) {
+                $success = true;
+                $session = $this->container->get('session');
+                $session->getFlashBag()->set('success', 'Your Trick has been successfully created !');
 
-        if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
-            $success = true;
-            $session = $this->container->get('session');
-            $session->getFlashBag()->set('success', 'Your Trick has been successfully created !');
+                $this->entityManager->persist($figure);
+                $this->entityManager->flush();
 
-            $this->entityManager->persist($figure);
-            $this->entityManager->flush();
-            return $this->redirectToRoute('create_figure', [
-                'success' => $success
-            ]);
+                return $this->redirectToRoute('create_figure', [
+                    'success' => $success
+                ]);
+            } else {
+                foreach ($figure->getImages() as $image) {
+                    unlink($this->filesTargetDirectory.'images/'. $image->getName());
+                    $this->entityManager->remove($image);
+                }
+                $this->entityManager->flush();
+            }
         }
 
         return $this->render('logged/figureCreation.html.twig', array(
@@ -62,7 +68,7 @@ class FigureController extends AbstractController
     }
 
     /**
-     * @Route("/logged/edit/{id}", name="edit_figure")
+     * @Route("/logged/edit/{slug}", name="edit_figure")
      * @param Request $request
      * @param Figure $figure
      * @return Response
@@ -86,7 +92,7 @@ class FigureController extends AbstractController
     }
 
     /**
-     * @Route("/logged/delete/{id})", name="delete_figure")
+     * @Route("/logged/delete/{slug})", name="delete_figure")
      * @param Figure $figure
      * @return RedirectResponse
      */

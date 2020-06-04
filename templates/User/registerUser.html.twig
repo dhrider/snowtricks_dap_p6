@@ -2,9 +2,14 @@
 
 {% block pageContent %}
     <div class="container">
-        <div class="login-form">
-            <h2>Registration</h2>
-            {{ form(form) }}
+        <div id="registrationForm" class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-user"></i>  Registration</h2>
+            </div>
+            <div class="card-body">
+                {{ form(form) }}
+            </div>
+
         </div>
     </div>
 

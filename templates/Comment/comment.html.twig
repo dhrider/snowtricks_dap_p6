@@ -1,0 +1,16 @@
+{% for comment in comments %}
+    <div class=" comment {{ cycle(['odd', 'even'], loop.index0) }} comment" id="comment-{{ comment.id }}">
+        <div id="commentDetail">
+            <img id="avatarImage" src="{{ comment.user.photo }}" alt="">
+
+            <div id="commentContent">
+                <h6>{{ comment.user.username }} - {{ comment.dateCreation | date('d-m-Y') }}</h6>
+                <p>{{ comment.content }}</p>
+            </div>
+
+        </div>
+
+    </div>
+{% else %}
+    <p>No comment</p>
+{% endfor %}

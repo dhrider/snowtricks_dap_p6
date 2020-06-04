@@ -6,9 +6,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
+ * @UniqueEntity(
+ *     fields={"name"}
+ * )
  */
 class Figure
 {
@@ -42,6 +47,30 @@ class Figure
     private $dateLastModification;
 
     /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Gedmo\Slug(fields={"name"})
+     */
+    private $slug;
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     * @return Figure
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\FiguresGroup", inversedBy="figures")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -57,6 +86,11 @@ class Figure
      */
     private $links;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure",  cascade={"all"}, fetch="EAGER", orphanRemoval=true)
+     */
+    private $comments;
+
 
     public function __construct()
     {
@@ -64,6 +98,7 @@ class Figure
         $this->dateLastModification = new \DateTime();
         $this->images = new ArrayCollection();
         $this->links = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,5 +258,36 @@ class Figure
     public function countImages() : int
     {
         return $this->getImages()->count();
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setFigure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getFigure() === $this) {
+                $comment->setFigure(null);
+            }
+        }
+
+        return $this;
     }
 }

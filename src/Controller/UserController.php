@@ -6,7 +6,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\File\FileUploader;
+use App\Form\PasswordResetType;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,9 +51,10 @@ class UserController extends AbstractController
             $user->setPassword($hash);
             $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
 
-            $newfilename = $fileUploader->upload($user->file, 'photos');
-
-            $user->setPhoto($newfilename);
+            if(null !== $user->file) {
+                $newfilename = $fileUploader->upload($user->file, 'photos');
+                $user->setPhoto($newfilename);
+            }
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();
@@ -60,9 +63,9 @@ class UserController extends AbstractController
                 ->getFlashBag()
                 ->set('success', 'You\'ve been successfully registred.')
             ;
-            return $this->redirectToRoute('login', array(
+            return $this->redirectToRoute('login', [
                 'success' => $success
-            ));
+            ]);
         }
 
         return $this->render('User/registerUser.html.twig', [
@@ -74,19 +77,76 @@ class UserController extends AbstractController
      * @Route(path="resetpassword", name="reset_password")
      * @param Request $request
      * @param Swift_Mailer $mailer
+     * @param UserRepository $userRepository
+     * @return Response
      */
-    public function resetPassword(Request $request, Swift_Mailer $mailer)
+    public function resetPassword(Request $request, Swift_Mailer $mailer, UserRepository $userRepository)
     {
+        if($request->isMethod('POST')) {
+            $user = $userRepository->findByEmail($request->request->get('email'));
+            $session = $this->container->get('session');
 
+            if($user) {
+                $user->setToken(hash('sha3-512', uniqid()));
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+                $email = new \Swift_Message();
+                $email
+                    ->setSubject('Philippe Bordmann Blog Message')
+                    ->setFrom('p_bordmann@orange.fr')
+                    ->setTo($user->getEmail())
+                    ->setContentType('text/html')
+                    ->setBody($this->render('User/resetPasswordEmail.html.twig', [
+                        'date' => new \DateTime(),
+                        'token' => $user->getToken()
+                    ]))
+                ;
+                $mailer->send($email);
+                $session->getFlashBag()->set('success', 'A link for resetting your password has been send to your email.');
+            } else {
+                $session->getFlashBag()->set('warning', 'This email doesn\'t exist.');
+            }
+        }
+
+        return $this->render('User/resetPassword.html.twig');
     }
 
     /**
      * @Route(path="newpassword/{token}", name="new_password")
      * @param User $user
      * @param Request $request
+     * @param EncoderFactoryInterface $encoder
      */
-    public function newPassword(User $user, Request $request)
+    public function newPassword(User $user, Request $request, EncoderFactoryInterface $encoder)
     {
-
+        $userExist = $this->entityManager
+            ->getRepository(User::class)
+            ->findOneBy(['token' => $user->getToken()])
+        ;
+        $form = $this->createForm(PasswordResetType::class, $user);
+        $form->handleRequest($request);
+        $session = $this->container->get('session');
+        if($form->isSubmitted() && $form->isValid()) {
+            $hash = $encoder
+                ->getEncoder($user)
+                ->encodePassword($form->getData()->getPassword(), $user->getSalt())
+            ;
+            $user->setPassword($hash);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            $success = true;
+            $session->getFlashBag()->set('success', 'Your new password is active!');
+            return $this->redirectToRoute('login', array(
+                'success' => $success
+            ));
+        }
+        if ($userExist) {
+            return $this->render('User/newPassword.html.twig', array(
+                'form' => $form->createView()
+            ));
+        } else {
+            $session->getFlashBag()->set('warning', 'The link for resetting your password is not valid.');
+            return $this->redirectToRoute('login');
+        }
     }
 }

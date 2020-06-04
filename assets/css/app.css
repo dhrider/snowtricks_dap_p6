@@ -90,6 +90,10 @@ html, body {
     margin-bottom: 50px;
 }
 
+.card {
+    margin-right: 15px;
+}
+
 .card_image {
     height: 200px;
 }
@@ -111,19 +115,22 @@ html, body {
     height: 350px;
 }
 
-.button {
-    position: absolute;
-    right: 225px;
-    top: 95px;
+#description {
+    text-align: justify;
 }
 
 .details {
     display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 15px;
 }
 
-.details h2 {
+.details h6 {
     margin-left: 20px;
+    border: solid black;
+    padding: 5px;
+    background-color: white;
 }
 
 /* Login form */
@@ -156,6 +163,28 @@ html, body {
 #registrationForm {
     width: 400px;
     margin: 100px auto;
-    padding-top: 50px;
 }
 
+/* Avatar + Comment */
+
+#commentaires {
+    align-items: center;
+}
+
+#commentDetail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#avatarImage  {
+    width: 60px;
+    height: auto;
+    margin-right: 15px;
+}
+
+#commentContent p {
+    background: white;
+    width: 500px;
+    padding: 5px;
+}
