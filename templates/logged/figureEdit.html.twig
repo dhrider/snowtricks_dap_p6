@@ -4,7 +4,7 @@
     <div class="container pageContent">
         {{ form_start(form) }}
         <div class="top_image">
-            <div id="card_top" class="card border-dark mb-4">
+            <div id="card_top" class="card border-dark mb-4 figure_card">
                 <img class="card_image" src="{{ figure.firstImage }}" alt="image"/>
                 <div class="card-footer">
                     <div class="push-right">
@@ -23,7 +23,7 @@
         {% endif %}
         <div class="media">
             {% for link in form.vars.data.links %}
-                <div class="card border-dark mb-4">
+                <div class="card border-dark mb-4 figure_card">
                     <iframe class="card_image" src="{{ link.url | replace({'watch?v=' : 'embed/'}) }}"></iframe>
                     <div class="card-footer">
                         <div class="push-right">
@@ -35,7 +35,7 @@
             {% endfor %}
             {% for image in  form.vars.data.images %}
                 {% if not loop.first %}
-                    <div class="card border-dark mb-4">
+                    <div class="card border-dark mb-4 figure_card">
                         <img class="card_image" src="{{ image.getImagePath() }}" alt="image"/>
                         <div class="card-footer">
                             <div class="push-right">

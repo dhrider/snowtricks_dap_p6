@@ -6,6 +6,7 @@ namespace App\Form\EventListener;
 use App\Entity\Link;
 use App\Entity\Figure;
 use App\Entity\Image;
+use App\File\FileUploader;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -14,12 +15,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class ImageEventListener implements EventSubscriberInterface
 {
     private $request;
-    private $imageDirectory;
+    private $filesTargetDirectory;
+    private $fileUploader;
 
-    public function __construct(RequestStack $requestStack, string $imageDirectory)
+    public function __construct(RequestStack $requestStack, string $filesTargetDirectory, FileUploader $fileUploader)
     {
         $this->request = $requestStack->getCurrentRequest();
-        $this->imageDirectory = $imageDirectory;
+        $this->filesTargetDirectory = $filesTargetDirectory;
+        $this->fileUploader = $fileUploader;
     }
     /**
      * @inheritDoc
@@ -42,20 +45,13 @@ class ImageEventListener implements EventSubscriberInterface
             if(isset($this->request->request->all()['post']['links']))
                 $links = $this->request->request->all()['post']['links'];
         }
-        //dd($links);
+
         if(isset($files['image'])) {
             $images = $files['image'];
         }
 
         foreach($images as $file) {
-            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeFilename = transliterator_transliterate(
-                'Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()',
-                $originalFilename
-            );
-            $newFilename = $safeFilename . '-' . uniqid('', true) . '.' . $file->guessExtension();
-
-            $file->move($this->imageDirectory, $newFilename);
+            $newFilename = $this->fileUploader->upload($file, 'images');
 
             if ($formEvent->getData() instanceof Figure) {
                 $image = new Image();
@@ -63,7 +59,7 @@ class ImageEventListener implements EventSubscriberInterface
                 $image->setName($newFilename);
                 $image->setType($file->getClientMimeType());
             } else {
-                unlink($this->imageDirectory . $formEvent->getData()->getName());
+                unlink($this->filesTargetDirectory.'images/'.$formEvent->getData()->getName());
                 $image = $formEvent->getData();
                 $image->setName($newFilename);
                 $image->setType($file->getClientMimeType());

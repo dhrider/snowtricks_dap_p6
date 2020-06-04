@@ -14,11 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ImageController extends AbstractController
 {
-    private $imageDirectory;
+    private $filesTargetDirectory;
 
-    public function __construct(string $imageDirectory)
+    public function __construct(string $filesTargetDirectory)
     {
-        $this->imageDirectory = $imageDirectory;
+        $this->filesTargetDirectory = $filesTargetDirectory;
     }
 
     /**
@@ -64,7 +64,7 @@ class ImageController extends AbstractController
      */
     public function deleteImage(Image $image, EntityManagerInterface $entityManager, ImageRepository $imageRepository)
     {
-        unlink($this->imageDirectory . $image->getName());
+        unlink($this->filesTargetDirectory.'images/'. $image->getName());
         $entityManager->remove($imageRepository->find($image->getId()));
         $entityManager->flush();
 
