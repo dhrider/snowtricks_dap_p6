@@ -79,7 +79,7 @@ class FigureController extends AbstractController
         $form->handleRequest($request);
 
         if($request->isMethod('POST') && $form->isSubmitted() && $form->isValid()) {
-            $figure->setDateLastModification(new \DateTime());
+            $figure->setUpdatedAt(new \DateTime());
             $this->entityManager->persist($figure);
             $this->entityManager->flush();
             return $this->redirectToRoute('home');

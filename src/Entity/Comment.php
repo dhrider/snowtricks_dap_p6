@@ -27,12 +27,7 @@ class Comment
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateCreation;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateLastModification;
+    private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Figure::class, inversedBy="comments")
@@ -48,8 +43,7 @@ class Comment
 
     public function __construct()
     {
-        $this->dateCreation = new \DateTime();
-        $this->dateLastModification = new \DateTime();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
 
@@ -70,28 +64,9 @@ class Comment
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->dateCreation;
-    }
-
-    public function setDateCreation(\DateTimeInterface $dateCreation): self
-    {
-        $this->dateCreation = $dateCreation;
-
-        return $this;
-    }
-
-    public function getDateLastModification(): ?\DateTimeInterface
-    {
-        return $this->dateLastModification;
-    }
-
-    public function setDateLastModification(\DateTimeInterface $dateLastModification): self
-    {
-        $this->dateLastModification = $dateLastModification;
-
-        return $this;
+        return $this->createdAt;
     }
 
     public function getFigure(): ?Figure
