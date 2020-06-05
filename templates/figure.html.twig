@@ -4,11 +4,16 @@
     <div class="container pageContent">
         <div class="top_image">
             <div id="card_top" class="card border-dark mb-4">
-                <img class="card_image" src="{{ figure.firstImage }}" alt="image"/>
+                {% if figure.countImages != 0 %}
+                    <img class="card_image" src="{{ figure.firstImage }}" alt="image"/>
+                {% else %}
+                    <img class="card_image" src="{{ asset('build/images/empty.jpg') }}" alt="image">
+                {% endif %}
                 <div class="card-footer">
+                    <h2>{{ figure.name }}</h2>
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="push-right">
-                            <a class="btn btn-primary" href="{{ path('edit_figure' , {'id' : figure.id}) }}">
+                            <a class="btn btn-primary" href="{{ path('edit_figure' , {'slug' : figure.slug}) }}">
                                 <i class="far fa-edit"></i>
                             </a>
                             {{ include('logged/deleteFigureModal.html.twig') }}
@@ -31,14 +36,25 @@
                 {% endif %}
             {% endfor %}
         </div>
-        <div class="description">
-            <p>{{ figure.description }}</p>
-        </div>
-        <div class="details">
-            <h2>Group : </h2>
-            <h2>Creation date : {{ figure.dateCreation | date('d-m-Y')}}</h2>
-            <h2>Modification date : {{ figure.dateLastModification | date('d-m-Y')}}</h2>
+        <hr/>
+        <div id="description">
+            <p>{{ figure.description | nl2br }}</p>
         </div>
         <hr/>
+        <div class="details">
+            <h6>Group : {{ figure.figuresGroup.name }}</h6>
+            <h6>Creation date : {{ figure.dateCreation | date('d-m-Y')}}</h6>
+            <h6>Modification date : {{ figure.dateLastModification | date('d-m-Y')}}</h6>
+        </div>
+        <hr/>
+        {% if is_granted('ROLE_ADMIN') %}
+            <h4><u>Leave a comment :</u></h4>
+            {{ form(form) }}
+            <hr/>
+        {% endif %}
+        <div id="comments">
+            <h4 id="commentaires"><u>Comments :</u></h4>
+            {% include('Comment/comment.html.twig') %}
+        </div>
     </div>
 {% endblock %}

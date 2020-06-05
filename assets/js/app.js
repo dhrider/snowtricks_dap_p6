@@ -79,33 +79,13 @@ $(document).ready(function() {
         $(e.target).closest('.videoLink').remove();
     });
 
-    $(document).on('change', '.images input[type=file]',  function (element) {
+    $(document).on('change', 'input[type=file]',  function (element) {
         // on récupère le nom du fichier dans le label de l'input (caché par Bootstrap 4)
         // et on l'affiche
         let inputFile = element.currentTarget;
         $(inputFile).parent()
             .find('.custom-file-label')
             .html(inputFile.files[0].name);
-
-        // TO CORRECT LATER
-        // on récupère la div qui contiendra les images en thumbnail
-        /*let preview = document.querySelector('#preview');
-        // on récupère le ficher et on initiale un nouveau FileReader
-        const file = this.files[0];
-        let reader = new FileReader();
-        // Evènement permettant d'afficher dans la div preview l'image uploadé
-        reader.addEventListener("load", function () {
-            let image = new Image();
-            image.height = 100;
-            image.title = file.name;
-            image.src = this.result;
-            image.id = inputFile.files[0].name; // on renseigne l'id pour pouvoir le récupérer plus tard
-            image.classList.add('imageThumb'); // on rajoute un class pour le CSS
-            preview.appendChild( image );
-        }, false);
-
-        reader.readAsDataURL(file);*/
-
     });
 });
 
