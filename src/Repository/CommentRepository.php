@@ -26,7 +26,7 @@ class CommentRepository extends ServiceEntityRepository
             ->select('c')
             ->where('c.figure = :id')
             ->setParameter('id', $id)
-            ->orderBy('c.dateCreation', 'DESC')
+            ->orderBy('c.createdAt', 'DESC')
         ;
 
         return $qb->getQuery()->getResult();
