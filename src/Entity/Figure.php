@@ -39,12 +39,12 @@ class Figure
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateCreation;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateLastModification;
+    private $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -64,7 +64,7 @@ class Figure
      * @param mixed $slug
      * @return Figure
      */
-    public function setSlug($slug)
+    public function setSlug(string $slug)
     {
         $this->slug = $slug;
         return $this;
@@ -94,8 +94,8 @@ class Figure
 
     public function __construct()
     {
-        $this->dateCreation = new \DateTimeImmutable();
-        $this->dateLastModification = new \DateTime();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTime();
         $this->images = new ArrayCollection();
         $this->links = new ArrayCollection();
         $this->comments = new ArrayCollection();
@@ -130,26 +130,26 @@ class Figure
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->dateCreation;
+        return $this->createdAt;
     }
 
-    public function setDateCreation(\DateTimeInterface $dateCreation): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->dateCreation = $dateCreation;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getDateLastModification(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->dateLastModification;
+        return $this->updatedAt;
     }
 
-    public function setDateLastModification(\DateTimeInterface $dateLastModification): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
-        $this->dateLastModification = $dateLastModification;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

@@ -43,8 +43,8 @@
         <hr/>
         <div class="details">
             <h6>Group : {{ figure.figuresGroup.name }}</h6>
-            <h6>Creation date : {{ figure.dateCreation | date('d-m-Y')}}</h6>
-            <h6>Modification date : {{ figure.dateLastModification | date('d-m-Y')}}</h6>
+            <h6>Creation date : {{ figure.createdAt | date('d-m-Y')}}</h6>
+            <h6>Modification date : {{ figure.updatedAt | date('d-m-Y')}}</h6>
         </div>
         <hr/>
         {% if is_granted('ROLE_ADMIN') %}
