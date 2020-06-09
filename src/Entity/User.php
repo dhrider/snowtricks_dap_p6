@@ -168,7 +168,7 @@ class User implements UserInterface
             // mettre le path vers la photo défaut
             return '/build/images/default_avatar.jpg';
         }
-        return $this->photo;
+        return '/uploads/photos/'.$this->photo;
     }
 
     /**
