@@ -87,5 +87,13 @@ $(document).ready(function() {
             .find('.custom-file-label')
             .html(inputFile.files[0].name);
     });
-});
 
+
+
+
+});
+function renderComments(figureId, page) {
+    fetch('/comments/' + figureId + '/' + page).
+    then(response => {return response.text()}).
+    then(content => {document.getElementById('comment_list').innerHTML = content});
+}
