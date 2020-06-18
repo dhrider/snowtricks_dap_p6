@@ -67,7 +67,7 @@ class Figure
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\FiguresGroup", inversedBy="figures")
+     * @ORM\ManyToOne(targetEntity="App\Entity\FiguresGroup", inversedBy="figures", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $figuresGroup;

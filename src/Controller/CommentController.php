@@ -22,13 +22,6 @@ class CommentController extends AbstractController
      */
     public function commentList($figure, CommentRepository $commentRepository, Request $request)
     {
-        /*$comments = $commentRepository->findAllComments($figure);
-
-
-        return $this->render('Comment/comment.html.twig', [
-            'comments' => $comments
-        ]);*/
-
         $page = $request->query->get('page', 1);
 
         $nbCommentPerPage = 10;
@@ -38,9 +31,7 @@ class CommentController extends AbstractController
             'comments' => $comments,
             'pagination' => [
                 'page' => $page,
-                'nbPages' => ceil(count($comments) / $nbCommentPerPage),
-                'nomRoute' => 'comment_index',
-                'paramsRoute' => []
+                'nbPages' => ceil(count($comments) / $nbCommentPerPage)
             ]
         ]);
     }

@@ -24,13 +24,13 @@
         </div>
         <div class="media">
             {% for link in figure.links %}
-                <div class="card border-dark mb-4">
+                <div class="card border-dark mb-3">
                     <iframe class="card_image" src="{{ link.url | replace({'watch?v=' : 'embed/'}) }}"></iframe>
                 </div>
             {% endfor %}
             {% for image in figure.images %}
                 {% if not loop.first %}
-                    <div class="card border-dark mb-4">
+                    <div class="card border-dark mb-3">
                         <img class="card_image" src="{{ image.getImagePath() }}" alt="image"/>
                     </div>
                 {% endif %}
@@ -73,7 +73,5 @@
         document.addEventListener('DOMContentLoaded', function () {
             renderComments({{ figure.id }}, 1)
         })
-
     </script>
-
 {% endblock %}

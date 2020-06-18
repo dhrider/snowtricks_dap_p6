@@ -47,8 +47,7 @@ html, body {
 
 .tricks {
     height: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin: auto;
 }
 
 .figure_card {
@@ -188,3 +187,4 @@ html, body {
     width: 500px;
     padding: 5px;
 }
+

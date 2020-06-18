@@ -35,7 +35,7 @@ class SlugEventSubscriber implements EventSubscriber
     public function prePersist(LifecycleEventArgs $event)
     {
         $this->buildSlug($event->getObject());
-
+        dd('coucou');
     }
     public function preUpdate(PreUpdateEventArgs $event)
     {
@@ -46,7 +46,6 @@ class SlugEventSubscriber implements EventSubscriber
     {
         if ($entity instanceof Figure) {
             $entity->setSlug($this->slugger->slug($entity->getName()));
-
         }
     }
 }
