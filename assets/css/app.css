@@ -47,8 +47,15 @@ html, body {
 
 .tricks {
     height: auto;
+    margin-top: 50px;
+}
+
+._figure {
+    display: block;
     margin: auto;
 }
+
+
 
 .figure_card {
     width: 350px;
@@ -82,11 +89,12 @@ html, body {
 }
 
 .media {
+}
+
+.hide {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-bottom: 50px;
 }
 
 .card {
@@ -188,3 +196,23 @@ html, body {
     padding: 5px;
 }
 
+
+@media screen and (min-width: 768px) {
+    ._figure {
+        display: flex;
+    }
+
+
+    .media {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
+    .hide {
+        display: none;
+    }
+
+}
