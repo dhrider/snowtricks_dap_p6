@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\EventSubcriber;
+namespace App\EventSubscriber;
 
 
 use App\Entity\Figure;
@@ -35,7 +35,7 @@ class SlugEventSubscriber implements EventSubscriber
     public function prePersist(LifecycleEventArgs $event)
     {
         $this->buildSlug($event->getObject());
-        dd('coucou');
+
     }
     public function preUpdate(PreUpdateEventArgs $event)
     {
