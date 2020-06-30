@@ -22,20 +22,24 @@
                 </div>
             </div>
         </div>
-        <div class="media">
+        <div class="media" id="media">
             {% for link in figure.links %}
-                <div class="card border-dark mb-4">
+                <div class="card border-dark mb-3">
                     <iframe class="card_image" src="{{ link.url | replace({'watch?v=' : 'embed/'}) }}"></iframe>
                 </div>
             {% endfor %}
             {% for image in figure.images %}
                 {% if not loop.first %}
-                    <div class="card border-dark mb-4">
+                    <div class="card border-dark mb-3">
                         <img class="card_image" src="{{ image.getImagePath() }}" alt="image"/>
                     </div>
                 {% endif %}
             {% endfor %}
         </div>
+        <div class="hide" id="h">
+            <button id="show_media">Show media</button>
+        </div>
+
         <hr/>
         <div id="description">
             <p>{{ figure.description | nl2br }}</p>
@@ -54,7 +58,24 @@
         {% endif %}
         <div id="comments">
             <h4 id="commentaires"><u>Comments :</u></h4>
-            {% include('Comment/comment.html.twig') %}
+            <div id="comment_list"></div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function renderComments(figureId, page) {
+            fetch('/comments/' + figureId + '?page=' + page).
+            then(response => {return response.text()}).
+            then(content => {document.getElementById('comment_list').innerHTML = content})
+        }
+        $(document).on('click', '.pagination button', function(element)  {
+            renderComments({{ figure.id }}, $(this).data('page'))
+        })
+        document.addEventListener('DOMContentLoaded', function () {
+            renderComments({{ figure.id }}, 1)
+        })
+    </script>
 {% endblock %}

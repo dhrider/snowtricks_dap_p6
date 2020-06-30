@@ -7,6 +7,9 @@
                 {{ error.messageKey|trans(error.messageData, 'security') }}
             </div>
         {% endif %}
+        {% if app.request.get('success') %}
+            {% include 'messageFlash.html.twig' with {'buttonId': 'closeRegisteredUserMessage'} %}
+        {% endif %}
         <div class="login-form">
             <form action="{{ path('login_check') }}" method="post">
                 <h2 class="text-center"><i class="fa fa-lock" aria-hidden="true"></i> Connexion</h2>
@@ -26,10 +29,5 @@
                 </div>
             </form>
         </div>
-        {% if app.request.get('success') %}
-            <div class="row">
-                {% include 'messageFlash.html.twig' with {'buttonId': 'closeRegisteredUserMessage'} %}
-            </div>
-        {% endif %}
     </div>
 {% endblock %}

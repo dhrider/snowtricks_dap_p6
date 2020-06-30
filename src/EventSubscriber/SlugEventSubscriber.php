@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\EventSubcriber;
+namespace App\EventSubscriber;
 
 
 use App\Entity\Figure;
@@ -46,7 +46,6 @@ class SlugEventSubscriber implements EventSubscriber
     {
         if ($entity instanceof Figure) {
             $entity->setSlug($this->slugger->slug($entity->getName()));
-
         }
     }
 }

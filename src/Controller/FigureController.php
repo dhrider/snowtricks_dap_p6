@@ -40,7 +40,7 @@ class FigureController extends AbstractController
      */
     public function figure(Request $request, Figure $figure,EntityManagerInterface $entityManager, CommentRepository $commentRepository)
     {
-        $comments = $commentRepository->findAllComments($figure->getId());
+        //$comments = $commentRepository->findAllComments($figure->getId());
         $comment = new Comment();
 
         $form = $this->createForm(CommentType::class, $comment);
@@ -60,7 +60,7 @@ class FigureController extends AbstractController
 
         return $this->render('figure.html.twig', [
             'figure' => $figure,
-            'comments' => $comments,
+            //'comments' => $comments,
             'form' => $form->createView()
         ]);
     }
